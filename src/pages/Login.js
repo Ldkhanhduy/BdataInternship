@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../style/Login.css"; // import file css riêng
-import Eye from "../assets/eye-regular-full.svg"
-import Noeye from "../assets/eye-slash-regular-full.svg"
-import Icon from "../assets/icon.png"
+import "../style/Login.css";
+import Eye from "../assets/eye-regular-full.svg";
+import Noeye from "../assets/eye-slash-regular-full.svg";
+import Icon from "../assets/icon.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     // Giả lập login
-    if (email === "admin@gmail.com" && password === "123456") {
+    if (email === "admin@bdata.com" && password === "admin123456") {
       localStorage.setItem("isAuthenticated", "true");
       navigate("/home");
     } else {
