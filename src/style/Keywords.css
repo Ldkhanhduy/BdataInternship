@@ -1,0 +1,333 @@
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-size: 14px;
+  color: rgba(0,0,0,0.88);
+  background: #f5f5f5;
+  line-height: 1.5715;
+}
+
+/* ==========================================================================
+   Layout khung trang
+   ========================================================================== */
+.cover {
+  min-height: 100%;
+  background: #f5f5f5;
+}
+
+.inner-cover {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ==========================================================================
+   Flex utilities (bắt chước lớp Ant)
+   ========================================================================== */
+.ant-flex { display: flex; }
+.ant-flex-vertical { flex-direction: column; }
+.ant-flex-align-center { align-items: center; }
+.ant-flex-align-stretch { align-items: stretch; }
+.ant-flex-justify-space-between { justify-content: space-between; }
+.ant-flex-wrap-wrap { flex-wrap: wrap; }
+
+/* Hash giữ nguyên tên lớp như bản gốc (không tác động UI) */
+.css-142vneq { --keep-hash: 1; }
+
+/* ==========================================================================
+   Tiêu đề trang
+   ========================================================================== */
+.page-title .title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.88);
+}
+
+/* ==========================================================================
+   Khối chips từ khóa + nút thêm
+   ========================================================================== */
+.wrap-keyword-category { /* container của chips + bảng */
+  width: 100%;
+}
+
+.wrap-add-keyword {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.wrap-keyword {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-item {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  background: #fafafa;
+  border-radius: 999px;
+  font-size: 13px;
+  color: rgba(0,0,0,0.88);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.keyword-item:hover {
+  border-color: #bfbfbf;
+  background: #f5f5f5;
+}
+
+.btn-add-keyword {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px dashed #d9d9d9;
+  background: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: rgba(0,0,0,0.88);
+  transition: all .2s ease;
+}
+
+.btn-add-keyword img {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
+
+.btn-add-keyword:hover {
+  border-color: #1677ff;
+  background: #f0f7ff;
+  color: #1677ff;
+}
+
+/* ==========================================================================
+   Bảng (Ant-like)
+   ========================================================================== */
+.ant-table-wrapper {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ant-table {
+  width: 100%;
+  position: relative;
+  background: #fff;
+}
+
+/* Ping-right: hiệu ứng viền mờ bên phải khi có scroll ngang */
+.ant-table-ping-right { --keep-ping-right: 1; } /* tránh rule rỗng cho linter */
+.ant-table-ping-right .ant-table-container::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 20px;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(0,0,0,0.06));
+}
+
+.ant-table-container {
+  position: relative;
+}
+
+.ant-table-content {
+  overflow: auto hidden; /* đúng theo DOM gốc */
+  -webkit-overflow-scrolling: touch;
+}
+
+.ant-table table {
+  width: 1000px;          /* theo DOM gốc */
+  min-width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: auto;
+}
+
+.ant-table thead.ant-table-thead th.ant-table-cell {
+  background: #fafafa;
+  color: rgba(0,0,0,0.88);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.ant-table tbody.ant-table-tbody td.ant-table-cell {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  color: rgba(0,0,0,0.88);
+  vertical-align: middle;
+}
+
+.ant-table-row:hover td.ant-table-cell {
+  background: #fafafa;
+}
+
+/* Hàng đo kích thước (ẩn) */
+.ant-table-measure-row td > div {
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* ==========================================================================
+   Tag trạng thái
+   ========================================================================== */
+.ant-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 20px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ant-tag-success {
+  color: #389e0d;
+  background: #f6ffed;
+  border-color: #b7eb8f;
+}
+
+/* ==========================================================================
+   Pagination (Ant-like)
+   ========================================================================== */
+.pagination-container {
+  margin-top: 16px;
+}
+
+.ant-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  list-style: none;
+  user-select: none;
+}
+
+.ant-pagination-center {
+  justify-content: center;
+  width: 100%;
+}
+
+.ant-pagination li {
+  display: inline-flex;
+}
+
+.ant-pagination a {
+  text-decoration: none;
+  color: rgba(0,0,0,0.88);
+}
+
+.ant-pagination-item {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 32px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.ant-pagination-item:hover {
+  border-color: #1677ff;
+  color: #1677ff;
+}
+
+.ant-pagination-item-active {
+  background: #1677ff;
+  border-color: #1677ff;
+  color: #fff;
+}
+
+.ant-pagination-prev,
+.ant-pagination-next {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.ant-pagination-prev:hover,
+.ant-pagination-next:hover {
+  border-color: #1677ff;
+  color: #1677ff;
+}
+
+.ant-pagination-disabled,
+.ant-pagination-disabled span {
+  color: rgba(0,0,0,0.25) !important;
+  cursor: not-allowed !important;
+  background: #fff !important;
+  border-color: #d9d9d9 !important;
+}
+
+.ant-pagination-prev span[disabled],
+.ant-pagination-next span[disabled] {
+  pointer-events: none;
+}
+
+.arrow {
+  display: inline-block;
+  font-weight: 600;
+  padding: 0 2px;
+}
+
+/* ==========================================================================
+   Spin container (trùng tên theo DOM gốc, không thay đổi UI)
+   ========================================================================== */
+.ant-spin-nested-loading { position: relative; }
+.ant-spin-container { position: relative; }
+
+/* ==========================================================================
+   Scroll horizontal flag (trùng tên theo DOM gốc)
+   ========================================================================== */
+.ant-table-scroll-horizontal { --keep-scroll-horizontal: 1; }
+
+/* ==========================================================================
+   Table cell width (theo <colgroup> của DOM gốc)
+   ========================================================================== */
+.ant-table colgroup col:nth-child(1) { width: 80px; }
+.ant-table colgroup col:nth-child(3) { width: 190px; }
+.ant-table colgroup col:nth-child(4) { width: 185px; }
+.ant-table colgroup col:nth-child(5) { width: 150px; }
+
+/* ==========================================================================
+   Card / wrapper “rs-table”, “rs-tag” (đồng tên để hợp lệ)
+   ========================================================================== */
+.rs-table { /* giữ nguyên class name cho đúng DOM gốc */
+  --keep-rs-table: 1;
+}
+.rs-tag { --keep-rs-tag: 1; }
