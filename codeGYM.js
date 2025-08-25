@@ -1,0 +1,1 @@
+console.log('First argument:', process.argv[2]);
