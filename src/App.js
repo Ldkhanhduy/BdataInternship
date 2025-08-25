@@ -14,8 +14,6 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/keywords" element={<Keywords />} />
         <Route path="/data" element={<Data />} />
-        {/* Nếu URL không hợp lệ, cũng về /login */}
-        {/* <Route path="*" element={<Navigate to="/login" />} /> */}
       </Routes>
     </Router>
   );
