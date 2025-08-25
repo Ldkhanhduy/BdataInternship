@@ -1,10 +1,8 @@
+import { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
-import "../style/Home.css"
+import "../style/Home.css";
+import "./Keywords.css";
 
 function Keywords() {
-  return <div className="cover">
-    <Navbar />
-    <div className="inner-cover">Key</div>
-  </div>;
 }
 export default Keywords;
