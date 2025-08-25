@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import About from "./pages/About";
+import Data from "./pages/Data";
 import Login from "./pages/Login";
+import Keywords from "./pages/Keywords";
 
 export default function App() {
   return (
@@ -11,9 +12,8 @@ export default function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        {/* Nếu URL không hợp lệ, cũng về /login */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/keywords" element={<Keywords />} />
+        <Route path="/data" element={<Data />} />
       </Routes>
     </Router>
   );
