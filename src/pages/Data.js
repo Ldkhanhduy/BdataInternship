@@ -16,7 +16,7 @@ function Data() {
   return (
     <div className="cover">
       <Navbar />
-      <div className="dashboard" style={{ marginLeft: "20%" }}>
+      <div className="dashboard" style={{ marginLeft: "20%", width: "100%" }}>
         <h2 className="dashboard-title">Trung tâm dữ liệu</h2>
 
         {/* Bộ lọc */}
@@ -40,7 +40,7 @@ function Data() {
         {/* Cards */}
         <div className="cards">
           <div className="card card-blue">
-            <h3>Tổng Mention</h3>
+            <h3>Tổng bài viết</h3>
             <p className="big-number">{stats?.total_mentions?.value || "--"}</p>
             <p>{stats?.total_mentions?.posts || "--"} Bài viết</p>
             <p>{stats?.total_mentions?.discussions || "--"} Thảo luận</p>

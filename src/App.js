@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Data from "./pages/Data";
 import Login from "./pages/Login";
 import Keywords from "./pages/Keywords";
+// import Werehouse from "./pages/werehouse";
 
 
 
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/keywords" element={<Keywords />} />
         <Route path="/data" element={<Data />} />
+        {/* <Route path="/" element={<Navigate to="/werehouse" />} /> */}
       </Routes>
     </Router>
   );

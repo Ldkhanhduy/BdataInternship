@@ -29,6 +29,10 @@ body {
   margin-bottom: 20px;
 }
 
+.filters select {
+    flex: 1;
+}
+
 .filters select,
 .filters input {
   padding: 8px;
