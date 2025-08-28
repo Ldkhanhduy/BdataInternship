@@ -47,15 +47,15 @@
 }
 
 .action-tag:hover {
-    background-color: #eaf7fe;
-    color: #1185f8;
-    fill: #1185f8;
+    background-color: #2e3d76;
+    color: #f68d4b;
+    fill: #f68d4b;
 }
 
 .action-tag:focus {
-    background-color: #eaf7fe;
-    color: #1185f8;
-    fill: #1185f8;
+    background-color: #2e3d76;
+    color: #f68d4b;
+    fill: #f68d4b;
 }
 
 .nav-link {
@@ -70,12 +70,12 @@
 }
 
 .nav-link:hover {
-    color: #1a73e8;
+    color: #f68d4b;
     border-radius: 8px;
 }
 
 .nav-link.active {
-    background-color: #eaf7fe;
-    color: #1185f8;
-    fill: #1185f8;
+    background-color: #2e3d76;
+    color: #f68d4b;
+    fill: #f68d4b;
 }

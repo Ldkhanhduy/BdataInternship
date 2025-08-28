@@ -39,7 +39,7 @@ function Home() {
 
         {/* Cards */}
         <div className="cards">
-          <div className="card card-blue">
+          <div className="card card-orange">
             <h3>Tổng bài viết</h3>
             <p className="big-number">{stats?.total_mentions?.value || "--"}</p>
             <p>{stats?.total_mentions?.posts || "--"} Bài viết</p>
