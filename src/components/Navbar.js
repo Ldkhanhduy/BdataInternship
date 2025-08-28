@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../style/Navbar.css";
 import { ReactComponent as HomeIcon } from "../assets/house-regular-full.svg";
 import { ReactComponent as DataIcon } from "../assets/file-regular-full.svg";
@@ -7,17 +7,25 @@ import { ReactComponent as LogIcon } from "../assets/arrow-right-from-bracket-so
 import Icon from "../assets/icon.png";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Xóa trạng thái đăng nhập
+    localStorage.removeItem("isAuthenticated");
+
+    // Điều hướng về login
+    navigate("/login");
+  };
+
   return (
     <nav className="nav">
       <div className="logo">
-        <NavLink
-          to="/home"
-          className="nav-link-logo"
-        >
+        <NavLink to="/home" className="nav-link-logo">
           <img src={Icon} alt="Login illustration" />
           MyApp
         </NavLink>
       </div>
+
       <div className="action-tag">
         <NavLink
           to="/home"
@@ -54,18 +62,15 @@ export default function Navbar() {
         </NavLink>
       </div>
 
-      <div className="action-tag" style={{marginTop: 'auto', marginBottom: '20px'}}>
-        <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
-          }
-        >
-          <LogIcon />
-          Đăng xuất
-        </NavLink>
+      {/* Logout button */}
+      <div
+        className="action-tag"
+        style={{ marginTop: "auto", marginBottom: "20px", cursor: "pointer", padding: "20px 10px 20px 10px" }}
+        onClick={handleLogout}
+      >
+        <LogIcon />
+        Đăng xuất
       </div>
     </nav>
   );
 }
-

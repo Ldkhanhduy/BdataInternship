@@ -3,6 +3,7 @@
   display: flex;
   height: 100vh;
   width: 100%;
+  padding: 0px;
 }
 
 /* Bên trái */
@@ -22,7 +23,7 @@
 /* Bên phải */
 .login-right {
   flex: 1;
-  background: #1E90FF;
+  background: #f68d48;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,7 +31,7 @@
 
 /* Hộp login */
 .login-box {
-  background: #fff;
+  background: #2e3d76;
   padding: 40px;
   border-radius: 12px;
   width: 350px;
@@ -40,12 +41,12 @@
 
 .login-box h2 {
   margin-bottom: 10px;
-  color: #333;
+  color: #f68d48;
 }
 
 .login-box p {
   margin-bottom: 20px;
-  color: #666;
+  color: #ffffff;
 }
 
 /* Input */
@@ -58,6 +59,7 @@
   outline: none;
   font-size: 14px;
   box-sizing: border-box;
+  color: #2e3d76;
 }
 
 /* Nút login */
@@ -66,7 +68,7 @@
   padding: 12px;
   border-radius: 25px;
   border: none;
-  background: #1E90FF;
+  background: #f68d48;
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -75,7 +77,7 @@
 }
 
 .login-box button:hover {
-  background: #187bcd;
+  background: #f77a27;
 }
 
 .password-wrapper {
@@ -125,7 +127,6 @@
     flex: none;
     width: 100%;
     min-height: 100vh;
-    padding: 20px 0;
   }
 
   .login-box {

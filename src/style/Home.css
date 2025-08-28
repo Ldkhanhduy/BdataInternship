@@ -19,7 +19,7 @@ body {
 }
 
 .dashboard-title {
-  color: #0073e6;
+  color: #2e3d76;
   margin-bottom: 20px;
 }
 
@@ -31,6 +31,7 @@ body {
 
 .filters select {
     flex: 1;
+    color: #2e3d76;
 }
 
 .filters select,
@@ -59,6 +60,7 @@ body {
   border-radius: 8px;
   flex: 1;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: #2e3d76;
 }
 
 .card h3 {
@@ -71,8 +73,8 @@ body {
   margin-bottom: 10px;
 }
 
-.card-blue {
-  background: #0073e6;
-  color: white;
+.card-orange {
+  background: #2e3d76;
+  color: #f68d4b;
 }
 
