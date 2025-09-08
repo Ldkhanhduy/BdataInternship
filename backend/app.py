@@ -1,40 +1,51 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,jsonify,flash
 from flask_mysqldb import MySQL
+from flask_cors import CORS
 import MySQLdb.cursors
 import re
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+CORS(app)
 
+# Config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Fxdhddhjs31!'  # Enter your MySql password 
-app.config['MYSQL_DB'] = 'crawl_medical'
+app.config['MYSQL_PASSWORD'] = '18112004'
+app.config['MYSQL_DB'] = 'thinhdb'
 
 mysql = MySQL(app)
 
-@app.route('/')
-@app.route('/danh-muc-tu-khoa', methods = ['POST','GET'])
+# # Trang test nhập keyword
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
+# API: lấy danh sách keywords
+@app.route('/api/keywords', methods=['GET'])
+def get_keywords():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT keyword_id, keyword, created_at FROM keywords")
+    data = cursor.fetchall()
+    cursor.close()
+    keywords = [{"id": row[0], "keyword": row[1], "created_at": row[2].strftime("%Y-%m-%d %H:%M:%S")}for row in data]
+    return jsonify(keywords)
+
+# API: thêm keyword
+@app.route('/api/keywords', methods=['POST'])
 def add_keyword():
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    data = request.json
+    print("Dữ liệu nhận từ frontend:", data)
 
-    if request.method == 'POST':
-        keyword = request.form['keyword']
-        if keyword and re.match(r'^[A-Za-z0-9\s]{2,255}$', keyword):
-            try:
-                cursor.execute(
-                    "INSERT INTO keywords (keyword) VALUES (%s)", (keyword,)
-                )
-                mysql.connection.commit()
-            except Exception as e:
-                print("Error khi thêm từ khóa:", e)
-        return redirect(url_for('add_keyword'))
+    keyword = data.get('keyword') if data else None
+    if not keyword:
+        return jsonify({"error": "keyword is required"}), 400
 
-    cursor.execute("SELECT * FROM keywords ORDER BY created_at DESC")
-    keywords = cursor.fetchall()
+    cursor = mysql.connection.cursor()
+    cursor.execute("INSERT INTO keywords (keyword) VALUES (%s)", (keyword,))
+    mysql.connection.commit()
+    cursor.close()
+    return jsonify({"message": "Keyword added successfully!"}), 201
 
-    return render_template('/base.html', keywords=keywords)
 
 if __name__ == '__main__':
     app.run(debug=True)
