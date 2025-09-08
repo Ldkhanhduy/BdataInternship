@@ -16,7 +16,7 @@ function Keywords() {
 
   async function loadKeywords() {
     try {
-      const res = await fetch("http://127.0.0.1:5000/api/keywords");
+      const res = await fetch("http://192.168.1.200:5000/api/keywords");
       const data = await res.json();
       setKeywords(data);
     } catch (err) {
@@ -234,7 +234,7 @@ function Keywords() {
                   if (input) {
                     try {
                       // 🚀 gọi API backend thay vì alert
-                      const res = await fetch("http://127.0.0.1:5000/api/keywords", {
+                      const res = await fetch("http://192.168.1.200:5000/api/keywords", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ keyword: input })
