@@ -13,12 +13,13 @@ import { ReactComponent as Tiktok } from "../assets/tiktok-brands-solid-full.svg
 function Home() {
   const [stats, setStats] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
     // API giả định cho backend biết
-    fetch("http://localhost:5000/api/statistics")
+    fetch("http://192.168.1.188:5000/api/keywords")
       .then((res) => res.json())
-      .then((data) => setStats(data))
+      .then((data) => setKeywords(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
     fetch("http://192.168.1.188:5000/api/posts")
@@ -27,6 +28,10 @@ function Home() {
       .catch(() => console.log("API chưa sẵn sàng"));
   }, []);
 
+  const keywordMap = {};
+  keywords.forEach((k) => {
+    keywordMap[k.id] = k.keyword_name;
+  });
 
   return (
     <div className="cover">
@@ -115,7 +120,7 @@ function Home() {
                     <td>{index + 1}</td>
                     <td>{post.post_name}</td>
                     <td>{post.keyword_id}</td>
-                    <td>{post.platform_id}</td>
+                    <td>{keywordMap[post.keyword_id] || "Không rõ"}</td>
                     <td>{post.author}</td>
                     <td>{post.date}</td>
                   </tr>
