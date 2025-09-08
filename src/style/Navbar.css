@@ -17,13 +17,17 @@
     align-items: center;
     font-size: 40px;
     font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
 }
+
 
 .nav-link-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: inherit;
+    text-overflow: ellipsis;
 }
 
 .logo img {

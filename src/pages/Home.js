@@ -21,7 +21,7 @@ function Home() {
       .then((data) => setStats(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://localhost:5000/api/posts")
+    fetch("http://192.168.1.188:5000/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch(() => console.log("API chưa sẵn sàng"));
@@ -56,8 +56,8 @@ function Home() {
         <div className="cards">
           <div className="card card-orange">
             <h3>Tổng bài viết</h3>
-            <p className="big-number">{stats?.total_mentions?.value || "--"}</p>
-            <p><Post className="svg"/>{stats?.total_mentions?.posts || "--"} Bài viết</p>
+            <p className="big-number">{posts.length || "--"}</p>
+            <p><Post className="svg"/>{posts?.length || "--"} Bài viết</p>
             <p><Comment className="svg"/>{stats?.total_mentions?.discussions || "--"} Thảo luận</p>
             <small>* Bài viết + thảo luận liên quan đến từ khóa</small>
           </div>
@@ -96,7 +96,7 @@ function Home() {
         </div>
 
         <div className="table-container">
-          <h2 className="table-title" style={{color: "#2e3d76"}}>Danh sách người dùng</h2>
+          <h2 className="table-title" style={{color: "#2e3d76"}}>Bài viết mới nhất</h2>
           <table className="custom-table">
             <thead>
               <tr>
@@ -109,13 +109,13 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {posts.length > 0 ? (
+              {posts && posts.length > 0 ? (
                 posts.map((post, index) => (
-                  <tr key={post.id}>
+                  <tr key={post.post_id}>
                     <td>{index + 1}</td>
-                    <td>{post.title}</td>
-                    <td>{post.keyword}</td>
-                    <td>{post.source}</td>
+                    <td>{post.post_name}</td>
+                    <td>{post.keyword_id}</td>
+                    <td>{post.platform_id}</td>
                     <td>{post.author}</td>
                     <td>{post.date}</td>
                   </tr>
