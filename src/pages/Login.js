@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     // Giả lập login
-    if (email === "admin@bdata.com" && password === "admin123456") {
+    if (email === "admin@bdata.com" && password === "admin123") {
       localStorage.setItem("isAuthenticated", "true");
       navigate("/home");
     } else {

@@ -17,13 +17,17 @@
     align-items: center;
     font-size: 40px;
     font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
 }
+
 
 .nav-link-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: inherit;
+    text-overflow: ellipsis;
 }
 
 .logo img {
@@ -35,6 +39,8 @@
     display: flex;
     margin-top: 10px;
     font-size: 16px;
+    color:#2e3d76;
+    fill: #2e3d76;
     cursor: pointer;
     border-radius: 8px;
     transition: background-color 0.3s ease;

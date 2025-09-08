@@ -78,3 +78,46 @@ body {
   color: #f68d4b;
 }
 
+.card p {
+  display: flex;
+  align-items: center;
+}
+
+.card-orange .svg {
+  width: 16px;
+  height: inherit;
+  fill: #f68d4b;
+  margin-right: 20px;
+}
+
+.card svg {
+  width: 16px;
+  height: inherit;
+  fill: #2e3d76;
+  margin-right: 20px;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-table {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.custom-table th {
+  text-align: left;
+}
+
+.error {
+  padding-top: 10px;
+  color: #ccc;
+  font-size: 30px;
+  text-align: center;
+}
+

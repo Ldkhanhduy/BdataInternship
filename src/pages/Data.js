@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Home.css";
+import { ReactComponent as Post } from "../assets/pen-nib-solid-full.svg";
+import { ReactComponent as Comment } from "../assets/comments-solid-full.svg";
+import { ReactComponent as Like } from "../assets/thumbs-up-solid-full.svg";
+import { ReactComponent as Share } from "../assets/share-from-square-solid-full.svg";
+import { ReactComponent as Youtube } from "../assets/youtube-brands-solid-full.svg";
+import { ReactComponent as Facebook } from "../assets/facebook-brands-solid-full.svg";
+import { ReactComponent as Tiktok } from "../assets/tiktok-brands-solid-full.svg";
 
-function Data() {
+
+function Home() {
   const [stats, setStats] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     // API giả định cho backend biết
@@ -11,7 +20,13 @@ function Data() {
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch(() => console.log("API chưa sẵn sàng"));
+
+    fetch("http://localhost:5000/api/posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch(() => console.log("API chưa sẵn sàng"));
   }, []);
+
 
   return (
     <div className="cover">
@@ -42,25 +57,25 @@ function Data() {
           <div className="card card-orange">
             <h3>Tổng bài viết</h3>
             <p className="big-number">{stats?.total_mentions?.value || "--"}</p>
-            <p>{stats?.total_mentions?.posts || "--"} Bài viết</p>
-            <p>{stats?.total_mentions?.discussions || "--"} Thảo luận</p>
+            <p><Post className="svg"/>{stats?.total_mentions?.posts || "--"} Bài viết</p>
+            <p><Comment className="svg"/>{stats?.total_mentions?.discussions || "--"} Thảo luận</p>
             <small>* Bài viết + thảo luận liên quan đến từ khóa</small>
           </div>
 
           <div className="card">
             <h3>Tổng tương tác</h3>
             <p className="big-number">{stats?.total_interactions?.value || "--"}</p>
-            <p>{stats?.total_interactions?.discussions || "--"} Tổng thảo luận</p>
-            <p>{stats?.total_interactions?.likes || "--"} Lượt thích</p>
-            <p>{stats?.total_interactions?.shares || "--"} Chia sẻ</p>
+            <p><Comment className="svg" />{stats?.total_interactions?.discussions || "--"} Tổng thảo luận</p>
+            <p><Like className="svg" />{stats?.total_interactions?.likes || "--"} Lượt thích</p>
+            <p><Share className="svg"/>{stats?.total_interactions?.shares || "--"} Chia sẻ</p>
           </div>
 
           <div className="card">
             <h3>Tổng lượt xem</h3>
             <p className="big-number">{stats?.total_views?.value || "--"}</p>
-            <p>TikTok: {stats?.total_views?.tiktok || "--"}</p>
-            <p>YouTube: {stats?.total_views?.youtube || "--"}</p>
-            <p>Facebook: {stats?.total_views?.facebook || "--"}</p>
+            <p><Tiktok className="svg" style={{fill: "black"}}/>TikTok: {stats?.total_views?.tiktok || "--"}</p>
+            <p><Youtube className="svg" style={{fill: "#FF0000"}}/>YouTube: {stats?.total_views?.youtube || "--"}</p>
+            <p><Facebook className="svg" style={{fil: "#1877F2"}}/>Facebook: {stats?.total_views?.facebook || "--"}</p>
           </div>
 
           <div className="card">
@@ -79,9 +94,43 @@ function Data() {
             <p>{stats?.total_data?.views || "--"} Lượt xem</p>
           </div>
         </div>
+
+        <div className="table-container">
+          <h2 className="table-title" style={{color: "#2e3d76"}}>Bài viết</h2>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th style={{width: "5%"}}>STT</th>
+                <th style={{width: "40%"}}>Bài viết</th>
+                <th style={{width: "15%"}}>Từ khóa</th>
+                <th style={{width: "10%"}}>Nguồn</th>
+                <th style={{width: "15%"}}>Người đăng</th>
+                <th style={{width: "15%"}}>Ngày đăng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.length > 0 ? (
+                posts.map((post, index) => (
+                  <tr key={post.id}>
+                    <td>{index + 1}</td>
+                    <td>{post.title}</td>
+                    <td>{post.keyword}</td>
+                    <td>{post.source}</td>
+                    <td>{post.author}</td>
+                    <td>{post.date}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="error">Chưa có dữ liệu...</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Data;
+export default Home;
