@@ -331,3 +331,61 @@ body {
   --keep-rs-table: 1;
 }
 .rs-tag { --keep-rs-tag: 1; }
+
+
+/* Panel thêm từ khóa góc trên phải */
+.wrap-add-keyword {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 280px;           /* nhỏ gọn */
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.wrap-keyword {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 150px;      /* giới hạn chiều cao */
+  overflow-y: auto;       /* có scroll nếu nhiều */
+}
+
+.form-add-keyword {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.input-keyword {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.input-keyword:focus {
+  border-color: #1677ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+}
+
+.btn-submit-keyword {
+  padding: 10px 10px;
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-submit-keyword:hover {
+  background: #0958d9;
+}

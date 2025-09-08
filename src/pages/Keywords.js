@@ -4,53 +4,36 @@
  */
 import { useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
-
 import "../style/Keywords.css";
 
+import React, {useEffect } from "react";
+
 function Keywords() {
-  // =========================
-  // DỮ LIỆU — GIỮ Y CHANG
-  // =========================
+  const [keywords, setKeywords] = useState([]);
+  useEffect(() => {
+  loadKeywords();
+  }, []);
+
+  async function loadKeywords() {
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/keywords");
+      const data = await res.json();
+      setKeywords(data);
+    } catch (err) {
+      console.error("Lỗi load keywords:", err);
+    }
+  }
+
   const KEYWORDS_CHIPS = useMemo(
-    () => [
-      "bmi",
-      "uric acid",
-      "Foton",
-      "Mitsubishi Fuso",
-      "BMW",
-      "Mazda",
-      "Kia",
-      "Peugeot",
-      "THADICO",
-      "Thiskyhall Café Lounge",
-      "Thaco mes",
-      "Besoverse Cosmic Cafe",
-      "Thaco SCADA",
-      "Thaco Trailers",
-      "THAGRICO",
-      "Cảng Chu Lai",
-      "Thaco Industries",
-      "Thaco auto",
-      "Thiso",
-      "Thaco",
-      "thilogi",
-    ],
+    () => [],
     []
   );
 
   // PAGE1 (STT 1–10)
   const PAGE1 = useMemo(
     () => [
-      { key: 156, stt: 1,  keyword: "bugatti",               mention: "205",   createdAt: "15:14:23, 25-08-2025" },
-      { key: 127, stt: 2,  keyword: "bmi",                   mention: "285",   createdAt: "10:19:24, 18-08-2025" },
-      { key: 126, stt: 3,  keyword: "uric acid",             mention: "1",     createdAt: "10:15:49, 18-08-2025" },
-      { key: 81,  stt: 4,  keyword: "Foton",                 mention: "702",   createdAt: "17:07:40, 25-07-2025" },
-      { key: 80,  stt: 5,  keyword: "Mitsubishi Fuso",       mention: "254",   createdAt: "17:07:32, 25-07-2025" },
-      { key: 79,  stt: 6,  keyword: "BMW",                   mention: "943",   createdAt: "17:07:15, 25-07-2025" },
-      { key: 78,  stt: 7,  keyword: "Mazda",                 mention: "2.530", createdAt: "17:07:05, 25-07-2025" },
-      { key: 77,  stt: 8,  keyword: "Kia",                   mention: "3.029", createdAt: "17:06:54, 25-07-2025" },
-      { key: 76,  stt: 9,  keyword: "Peugeot",               mention: "1.245", createdAt: "17:06:11, 25-07-2025" },
-      { key: 42,  stt: 10, keyword: "THADICO",               mention: "157",   createdAt: "10:02:22, 29-05-2025" },
+      { },
+      { },
     ],
     []
   );
@@ -58,16 +41,8 @@ function Keywords() {
   // PAGE2 (STT 11–20)
   const PAGE2 = useMemo(
     () => [
-      { key: 41, stt: 11, keyword: "Thiskyhall Café Lounge", mention: "129",   createdAt: "10:02:10, 29-05-2025" },
-      { key: 40, stt: 12, keyword: "Thaco mes",              mention: "129",   createdAt: "10:02:03, 29-05-2025" },
-      { key: 39, stt: 13, keyword: "Besoverse Cosmic Cafe",  mention: "132",   createdAt: "10:01:43, 29-05-2025" },
-      { key: 38, stt: 14, keyword: "Thaco SCADA",            mention: "24",    createdAt: "10:01:16, 29-05-2025" },
-      { key: 37, stt: 15, keyword: "Thaco Trailers",         mention: "277",   createdAt: "10:01:07, 29-05-2025" },
-      { key: 36, stt: 16, keyword: "THAGRICO",               mention: "116",   createdAt: "10:00:48, 29-05-2025" },
-      { key: 35, stt: 17, keyword: "Cảng Chu Lai",           mention: "156",   createdAt: "09:23:32, 29-05-2025" },
-      { key: 34, stt: 18, keyword: "Thaco Industries",       mention: "229",   createdAt: "09:23:24, 29-05-2025" },
-      { key: 33, stt: 19, keyword: "Thaco auto",             mention: "1.207", createdAt: "09:23:12, 29-05-2025" },
-      { key: 32, stt: 20, keyword: "Thiso",                  mention: "1.685", createdAt: "09:23:02, 29-05-2025" },
+      { },
+      { },
     ],
     []
   );
@@ -75,8 +50,8 @@ function Keywords() {
   // PAGE3 (STT 21–22)
   const PAGE3 = useMemo(
     () => [
-      { key: 31, stt: 21, keyword: "Thaco",   mention: "6.935", createdAt: "09:22:52, 29-05-2025" },
-      { key: 30, stt: 22, keyword: "thilogi", mention: "189",   createdAt: "09:22:39, 29-05-2025" },
+      { },
+      { },
     ],
     []
   );
@@ -120,7 +95,7 @@ function Keywords() {
         <td className="ant-table-cell">{r.mention}</td>
         <td className="ant-table-cell">{r.createdAt}</td>
         <td className="ant-table-cell">
-          <span
+          {/* <span
             className="ant-tag ant-tag-success rs-tag css-142vneq"
             style={{ marginInlineEnd: "0px" }}
           >
@@ -130,7 +105,7 @@ function Keywords() {
             >
               Đã duyệt
             </div>
-          </span>
+          </span> */}
         </td>
       </tr>
     ));
@@ -249,15 +224,48 @@ function Keywords() {
                   </div>
                 </div>
               </div>
-              <div className="btn-add-keyword">
-                Thêm từ khoá chính{" "}
-                <img
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABRSURBVHgB7ZLRCQAgCETPaKA2qtFqklZoI0voNwyK6MMHpx8eh6DAK5g5iXDKCKkizedwCQvSISnzvHHhCbO3xbwQUb62kYr90YdBfsNT8JIOsqkcZzU0ow0AAAAASUVORK5CYII="
-                  loading="lazy"
-                  alt=""
+
+              {/* Form thêm từ khóa */}
+              <form
+                className="form-add-keyword"
+                onSubmit={async (e) => {   // <-- thêm async
+                  e.preventDefault();
+                  const input = e.target.elements.keyword.value.trim();
+                  if (input) {
+                    try {
+                      // 🚀 gọi API backend thay vì alert
+                      const res = await fetch("http://127.0.0.1:5000/api/keywords", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ keyword: input })
+                      });
+
+                      if (res.ok) {
+                        // Nếu thêm thành công -> load lại danh sách keywords
+                        await loadKeywords();
+                      } else {
+                        console.error("Lỗi khi thêm từ khóa");
+                      }
+                    } catch (err) {
+                      console.error("Lỗi kết nối API:", err);
+                    }
+
+                    e.target.reset();  // reset ô input
+                  }
+                }}
+              >
+                <input
+                  type="text"
+                  name="keyword"
+                  placeholder="Nhập từ khóa..."
+                  className="input-keyword"
                 />
-              </div>
+                <button type="submit" className="btn-submit-keyword">
+                  Thêm
+                </button>
+              </form>
             </div>
+
 
             <div
               className="ant-flex css-142vneq ant-flex-align-stretch ant-flex-vertical"
@@ -297,7 +305,15 @@ function Keywords() {
                             </thead>
                             <tbody className="ant-table-tbody">
                               {renderMeasureRow()}
-                              {renderRows(PAGES[currentPage - 1])}
+                              {keywords.map((k, index) => (
+                                <tr key={k.id} className="ant-table-row ant-table-row-level-0">
+                                  <td className="ant-table-cell">{index + 1}</td>
+                                  <td className="ant-table-cell">{k.keyword}</td>
+                                  <td className="ant-table-cell">0</td> {/* tạm fix, backend chưa có mention */}
+                                  <td className="ant-table-cell">{k.created_at}</td>
+                                  <td className="ant-table-cell"></td>
+                                </tr>
+                              ))}
                             </tbody>
                           </table>
                         </div>
