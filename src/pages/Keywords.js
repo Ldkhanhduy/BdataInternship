@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Keywords.css";
 
-const API_URL = "http://192.168.1.188:5000/api/keywords";
+const API_URL = "http://192.168.1.200:5000/api/keywords";
 const PAGE_SIZE = 10;
 
 function Keywords() {

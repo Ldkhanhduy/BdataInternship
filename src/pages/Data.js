@@ -31,7 +31,7 @@ function Home() {
   return (
     <div className="cover">
       <Navbar />
-      <div className="dashboard" style={{ marginLeft: "20%", width: "100%" }}>
+      <div className="dashboard">
         <h2 className="dashboard-title">Trung tâm dữ liệu</h2>
 
         {/* Bộ lọc */}
@@ -49,7 +49,6 @@ function Home() {
             <option>3 ngày gần nhất</option>
           </select>
           <input type="text" placeholder="Nhập nội dung cần tìm..." />
-          <button className="upload-btn">⬆</button>
         </div>
 
         {/* Cards */}
