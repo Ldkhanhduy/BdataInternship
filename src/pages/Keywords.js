@@ -69,7 +69,7 @@ function Keywords() {
     } catch (err) {
       console.error("POST /keywords failed:", err);
     } finally {
-      if (typeof form.reset === "function") form.reset(); // ✅ fix triệt để vụ reset null
+      if (typeof form.reset === "function") form.reset();
     }
   }
 
@@ -100,9 +100,9 @@ function Keywords() {
 
   const renderRows = (rows) =>
     rows.map((k, i) => {
-      const stt = offset + i + 1;                     // STT liên tục theo trang
+      const stt = offset + i + 1;
       const mention = k.mention != null ? String(k.mention) : "0";
-      const created = k.created_at || k.createdAt || ""; // tôn trọng định dạng backend
+      const created = k.created_at || k.createdAt || "";
 
       return (
         <tr
