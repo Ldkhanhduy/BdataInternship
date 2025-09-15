@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Keywords.css";
 
-const API_URL = "http://192.168.1.188:5000/api/keywords";
+const API_URL = "http://192.168.1.200:5000/api/keywords";
 const PAGE_SIZE = 10;
 
 function Keywords() {
@@ -38,6 +38,7 @@ function Keywords() {
     try {
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(`GET ${res.status}`);
+
       const data = await res.json();
       setKeywords(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -239,8 +240,8 @@ function Keywords() {
                   <div className="wrap-keyword">{/* giữ nguyên DOM, để trống */}</div>
                 </div>
               </div>
-
               <form className="form-add-keyword" onSubmit={handleAdd} ref={formRef}>
+
                 <input
                   type="text"
                   name="keyword"

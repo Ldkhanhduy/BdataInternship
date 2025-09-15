@@ -12,18 +12,57 @@
     box-shadow: 0 2px 6px #ddd;
 }
 
+/* .nav.closed {
+  transform: translateX(-100%); 
+} */
+
+.menu-toggle {
+  display: none; /* mặc định ẩn */
+  position: fixed;
+  top: 50%;
+  left: 15px;
+  background: #2e3d76;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+/* Responsive: dưới 600px thì mới hiện nút toggle */
+@media (max-width: 800px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav.open {
+    display: flex;
+    transform: translateX(0);
+  }
+}
+
 .logo {
     display: flex;
     align-items: center;
     font-size: 40px;
     font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
 }
+
 
 .nav-link-logo {
     display: flex;
     align-items: center;
     text-decoration: none;
     color: inherit;
+    text-overflow: ellipsis;
 }
 
 .logo img {
@@ -35,6 +74,8 @@
     display: flex;
     margin-top: 10px;
     font-size: 16px;
+    color:#2e3d76;
+    fill: #2e3d76;
     cursor: pointer;
     border-radius: 8px;
     transition: background-color 0.3s ease;
@@ -67,6 +108,18 @@
     font-weight: 350;
     align-items: center;
     color: inherit;
+}
+
+@media (max-width: 800px) {
+  .nav-link span,
+  .nav-link-logo span,
+  .action-tag span {
+    display: none;
+  }
+
+  .nav-link, .nav-link-logo {
+    justify-content: center; /* căn giữa icon */
+  }
 }
 
 .nav-link:hover {

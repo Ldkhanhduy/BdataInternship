@@ -18,6 +18,17 @@ body {
   padding: 20px;
 }
 
+.dashboard {
+  margin-left: 20%;
+  width: 100%
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    margin-left: 0;
+  }
+}
+
 .dashboard-title {
   color: #2e3d76;
   margin-bottom: 20px;
@@ -27,10 +38,17 @@ body {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+
+.filters > * {
+  flex: 1 1 calc(16.6% - 10px);  
+  min-width: 150px;              
 }
 
 .filters select {
-    flex: 1;
+    flex: 3;
     color: #2e3d76;
 }
 
@@ -41,24 +59,26 @@ body {
   border: 1px solid #ccc;
 }
 
-.upload-btn {
-  padding: 8px 12px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-}
 
 .cards {
   display: flex;
+  flex-wrap: wrap;
   gap: 15px;
 }
+
+
+@media (max-width: 1000px) {
+  .cards .card {
+    flex: 1 1 calc(30% - 20px);
+  }
+}
+
 
 .card {
   background: white;
   padding: 15px;
   border-radius: 8px;
-  flex: 1;
+  flex: 1 1 calc(10% - 20px);
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   color: #2e3d76;
 }
@@ -76,5 +96,48 @@ body {
 .card-orange {
   background: #2e3d76;
   color: #f68d4b;
+}
+
+.card p {
+  display: flex;
+  align-items: center;
+}
+
+.card-orange .svg {
+  width: 16px;
+  height: inherit;
+  fill: #f68d4b;
+  margin-right: 20px;
+}
+
+.card svg {
+  width: 16px;
+  height: inherit;
+  fill: #2e3d76;
+  margin-right: 20px;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-table {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.custom-table th {
+  text-align: left;
+}
+
+.error {
+  padding-top: 10px;
+  color: #ccc;
+  font-size: 30px;
+  text-align: center;
 }
 

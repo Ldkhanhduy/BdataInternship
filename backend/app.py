@@ -8,10 +8,10 @@ app = Flask(__name__)
 CORS(app)
 
 # Config MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '18112004'
-app.config['MYSQL_DB'] = 'thinhdb'
+app.config['MYSQL_HOST'] = 'data.bdata.top'
+app.config['MYSQL_USER'] = 'bdata_db'
+app.config['MYSQL_PASSWORD'] = 'bData#123'
+app.config['MYSQL_DB'] = 'mock_crawldata'
 
 mysql = MySQL(app)
 
@@ -29,6 +29,16 @@ def get_keywords():
     cursor.close()
     keywords = [{"id": row[0], "keyword": row[1], "created_at": row[2].strftime("%Y-%m-%d %H:%M:%S")}for row in data]
     return jsonify(keywords)
+
+@app.route('/api/posts', methods=['GET'])
+def get_posts():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT post_id,post_name,author,date,keyword_id,platform_id,crawl_at FROM posts")
+    data = cursor.fetchall()
+    cursor.close()
+    posts = [{"post_id": row[0], "post_name": row[1],"author": row[2], "date": row[3],"keyword_id": row[4],"platform_id": row[5],
+              "crawl_at": row[6].strftime("%Y-%m-%d %H:%M:%S")}for row in data]
+    return jsonify(posts)
 
 # API: thêm keyword
 @app.route('/api/keywords', methods=['POST'])
@@ -48,4 +58,4 @@ def add_keyword():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host = "0.0.0.0", port = 5000)
