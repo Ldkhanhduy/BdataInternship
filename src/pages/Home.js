@@ -17,12 +17,12 @@ function Home() {
 
   useEffect(() => {
     // API giả định cho backend biết
-    fetch("http://192.168.1.188:5000/api/keywords")
+    fetch("http://192.168.1.200:5000/api/keywords")
       .then((res) => res.json())
       .then((data) => setKeywords(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://192.168.1.188:5000/api/posts")
+    fetch("http://192.168.1.200:5000/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch(() => console.log("API chưa sẵn sàng"));
