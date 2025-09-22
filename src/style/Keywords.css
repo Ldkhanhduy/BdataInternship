@@ -1,13 +1,6 @@
-/* Cơ bản */
-*, *::before, *::after {
-  box-sizing: content-box;
-}
-
-html,
-body,
-#root {
-  height: 100%;
-}
+/* ========== Base ========== */
+*, *::before, *::after { box-sizing: content-box; }
+html, body, #root { height: 100%; }
 
 body {
   background: #f5f5f5;
@@ -23,9 +16,10 @@ body {
 :root {
   --gutter-x: 24px;
   --nav-w: 200px;
+  --toggle-size: 44px;
 }
 
-/* Sidebar trái */
+/* ========== Sidebar (fixed) ========== */
 .nav {
   background: #fff;
   border-right: 1px solid #f0f0f0;
@@ -37,49 +31,35 @@ body {
   position: fixed;
   top: 0;
   width: var(--nav-w);
-  z-index: 100;
+  z-index: 1000;
 }
 
-/* Bố cục */
-.cover {
-  background: #f5f5f5;
-  min-height: 100%;
-}
+/* ========== Layout ========== */
+.cover { background: #f5f5f5; min-height: 100%; }
 
-/* Nội dung: giãn full, chừa khoảng cho nav + gutter */
-.inner-cover {
+/* dashboard */
+.dashboard {
   margin-left: calc(var(--nav-w) + var(--gutter-x));
   max-width: none;
   padding: 20px var(--gutter-x);
   transition: margin-left .2s ease, width .2s ease;
   width: calc(100% - var(--nav-w) - (var(--gutter-x) * 2));
 }
+.dashboard > .ant-flex.ant-flex-vertical { width: 100%; }
 
-/* Đảm bảo wrapper con chiếm toàn bộ bề ngang */
-.inner-cover > .ant-flex.ant-flex-vertical {
-  width: 100%;
-}
-
-/* Flex (Ant-like) */
+/* ========== Flex utils ========== */
 .ant-flex { display: flex; }
 .ant-flex-vertical { flex-direction: column; }
 .ant-flex-align-center { align-items: center; }
 .ant-flex-align-stretch { align-items: stretch; }
 .ant-flex-justify-space-between { justify-content: space-between; }
 .ant-flex-wrap-wrap { flex-wrap: wrap; }
-
-/* Giữ tên hash */
 .css-142vneq { --keep-hash: 1; }
 
-/* Tiêu đề */
-.page-title .title {
-  color: #2E3D76;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
-}
+/* ========== Title ========== */
+.page-title .title { color: #2E3D76; font-size: 20px; font-weight: 700; line-height: 28px; }
 
-/* Khu vực chips + bảng: giãn 100% bề ngang */
+/* ========== Keyword area ========== */
 .wrap-keyword-category {
   align-items: stretch;
   display: flex;
@@ -88,7 +68,6 @@ body {
   width: 100%;
 }
 
-/* Khối thêm từ khóa */
 .wrap-add-keyword {
   background: #fff;
   border: 1px solid #f0f0f0;
@@ -101,18 +80,10 @@ body {
   width: 935px;
 }
 
-.wrap-keyword {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+.wrap-keyword { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* Form thêm từ khóa */
-.form-add-keyword {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
+/* form */
+.form-add-keyword { display: flex; gap: 8px; margin-top: 12px; }
 
 .input-keyword {
   border: 1px solid #d9d9d9;
@@ -121,7 +92,6 @@ body {
   font-size: 14px;
   padding: 6px 10px;
 }
-
 .input-keyword:focus {
   border-color: #1677ff;
   box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
@@ -147,10 +117,9 @@ body {
   text-align: center;
   transition: background 0.2s ease;
 }
-
 .btn-submit-keyword:hover { background: #2e3d76; }
 
-/* Bảng (Ant-like) */
+/* ========== Table (Ant-like) ========== */
 .ant-table-wrapper {
   background: #fff;
   border: 1px solid #f0f0f0;
@@ -158,21 +127,10 @@ body {
   overflow: hidden;
   width: 100%;
 }
+.ant-table-wrapper.rs-table.css-142vneq { margin: 0 auto; max-width: 100%; width: 100%; }
 
-/* Bảng canh giữa theo khung, cho phép giãn full width */
-.ant-table-wrapper.rs-table.css-142vneq {
-  margin: 0 auto;
-  max-width: 100%;
-  width: 100%;
-}
+.ant-table { background: #fff; position: relative; width: 100%; }
 
-.ant-table {
-  background: #fff;
-  position: relative;
-  width: 100%;
-}
-
-/* Hiệu ứng ping-right khi có scroll ngang */
 .ant-table-ping-right .ant-table-container::after {
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.06));
   bottom: 0;
@@ -185,13 +143,8 @@ body {
 }
 
 .ant-table-container { position: relative; }
+.ant-table-content { -webkit-overflow-scrolling: touch; overflow: auto hidden; }
 
-.ant-table-content {
-  -webkit-overflow-scrolling: touch;
-  overflow: auto hidden;
-}
-
-/* Bảng nội bộ: giãn đầy đủ bề ngang */
 .ant-table table {
   border-collapse: separate;
   border-spacing: 0;
@@ -200,13 +153,11 @@ body {
   width: 100%;
 }
 
-/* Kích thước cột (khi không bị inline style ghi đè) */
 .ant-table colgroup col:nth-child(1) { width: 80px; }
 .ant-table colgroup col:nth-child(3) { width: 190px; }
 .ant-table colgroup col:nth-child(4) { width: 185px; }
 .ant-table colgroup col:nth-child(5) { width: 150px; }
 
-/* Ô bảng */
 .ant-table thead.ant-table-thead th.ant-table-cell {
   border-bottom: 1px solid #f0f0f0;
   color: #2e3d76;
@@ -214,12 +165,11 @@ body {
   font-size: 16px;
   font-weight: 600;
   line-height: 18px;
-  padding: 12px 16px;
+  padding: 10px 16px;
   text-align: left;
   text-decoration-skip-ink: none;
   white-space: nowrap;
 }
-
 .ant-table tbody.ant-table-tbody td.ant-table-cell {
   border-bottom: 1px solid #f0f0f0;
   color: #2e3d76;
@@ -232,17 +182,10 @@ body {
   text-decoration-skip-ink: none;
   vertical-align: middle;
 }
-
 .ant-table-row:hover td.ant-table-cell { background: #e9e9e9; }
+.ant-table-measure-row td > div { height: 0; overflow: hidden; visibility: hidden; }
 
-/* Hàng đo kích thước => ẩn */
-.ant-table-measure-row td > div {
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-}
-
-/* Thẻ trạng thái */
+/* ========== Tag ========== */
 .ant-tag {
   align-items: center;
   border: 1px solid transparent;
@@ -256,14 +199,9 @@ body {
   user-select: none;
   white-space: nowrap;
 }
+.ant-tag-success { background: #f6ffed; border-color: #b7eb8f; color: #389e0d; }
 
-.ant-tag-success {
-  background: #f6ffed;
-  border-color: #b7eb8f;
-  color: #389e0d;
-}
-
-/* Phân trang */
+/* ========== Pagination ========== */
 .pagination-container { margin-top: 16px; }
 
 .ant-pagination {
@@ -274,15 +212,9 @@ body {
   padding: 0;
   user-select: none;
 }
-
 .ant-pagination-center { justify-content: center; width: 100%; }
-
 .ant-pagination li { display: inline-flex; }
-
-.ant-pagination a {
-  color: #2e3d76;
-  text-decoration: none;
-}
+.ant-pagination a { color: #2e3d76; text-decoration: none; }
 
 .ant-pagination-item {
   align-items: center;
@@ -298,17 +230,8 @@ body {
   padding: 0 8px;
   transition: all 0.2s ease;
 }
-
-.ant-pagination-item:hover {
-  border-color: #2e3d76;
-  color: #2e3d76;
-}
-
-.ant-pagination-item-active {
-  background: #ffffff;
-  border-color: #2e3d76;
-  color: #2e3d76;
-}
+.ant-pagination-item:hover { border-color: #2e3d76; color: #2e3d76; }
+.ant-pagination-item-active { background: #ffffff; border-color: #2e3d76; color: #2e3d76; }
 
 .ant-pagination-prev,
 .ant-pagination-next {
@@ -319,12 +242,8 @@ body {
   padding: 0 10px;
   transition: all 0.2s ease;
 }
-
 .ant-pagination-prev:hover,
-.ant-pagination-next:hover {
-  border-color: #2e3d76;
-  color: #2e3d76;
-}
+.ant-pagination-next:hover { border-color: #2e3d76; color: #2e3d76; }
 
 .ant-pagination-disabled,
 .ant-pagination-disabled span {
@@ -333,21 +252,121 @@ body {
   color: rgba(0, 0, 0, 0.25) !important;
   cursor: not-allowed !important;
 }
-
 .ant-pagination-prev span[disabled],
 .ant-pagination-next span[disabled] { pointer-events: none; }
 
-.arrow {
-  display: inline-block;
-  font-weight: 600;
-  padding: 0 2px;
-}
+.arrow { display: inline-block; font-weight: 600; padding: 0 2px; }
 
-/* Spin */
+/* ========== Spin ========== */
 .ant-spin-nested-loading { position: relative; }
 .ant-spin-container { position: relative; }
 
-/* Cờ giữ tên lớp */
+/* ========== Flags ========== */
 .ant-table-scroll-horizontal { --keep-scroll-horizontal: 1; }
 .rs-table { --keep-rs-table: 1; }
 .rs-tag { --keep-rs-tag: 1; }
+
+/* ========== Responsive ========== */
+
+/* Nới width cứng ở tablet lớn */
+@media (max-width: 1280px) {
+  .ant-table-wrapper { max-width: 100%; }
+  .wrap-add-keyword {
+    max-width: min(100%, 938px);
+    width: min(100%, 935px);
+  }
+}
+
+/* Form xếp dọc, nút 50% và căn giữa ở màn hình trung bình */
+@media (max-width: 900px) {
+  .form-add-keyword { flex-direction: column; }
+  .btn-submit-keyword {
+    width: 50%;
+    margin: 8px auto 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Mobile: ẩn nav, hiển thị nội dung full-width */
+@media (max-width: 768px) {
+  .nav { display: none !important; }
+
+  /* was .inner-cover */
+  .dashboard {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 12px;
+  }
+
+  .wrap-add-keyword {
+    width: 90%;
+    max-width: 90%;
+  }
+
+  .ant-table-content { overflow: auto; }
+  .ant-table table { min-width: 640px; }
+}
+
+/* Extra small */
+@media (max-width: 480px) {
+  .page-title .title { font-size: 18px; }
+  .input-keyword { font-size: 13px; }
+  .btn-submit-keyword { font-size: 12px; }
+}
+
+/* ====== Rail: đồng bộ chiều rộng & canh giữa các khối ====== */
+:root { --rail-w: 938px; }
+
+.wrap-keyword-category,
+.wrap-keyword-category > .ant-flex.ant-flex-align-stretch.ant-flex-vertical,
+.wrap-add-keyword,
+.wrap-keyword-category .ant-table-wrapper,
+.wrap-keyword-category .pagination-container {
+  box-sizing: border-box;
+  max-width: var(--rail-w);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* bỏ cố định 935px để không lệch vì padding */
+.wrap-add-keyword {
+  width: 100% !important;
+  max-width: var(--rail-w) !important;
+}
+
+/* Bảng bám đúng ray */
+.wrap-keyword-category .ant-table-wrapper,
+.wrap-keyword-category .ant-table-container,
+.wrap-keyword-category .ant-table {
+  width: 100%;
+}
+
+/* Căn tiêu đề bám ray và canh mép trong giống ô input/bảng */
+.page-title {
+  box-sizing: border-box;
+  max-width: var(--rail-w);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile: ray = 100% màn hình */
+@media (max-width: 768px) {
+  :root { --rail-w: 100%; }
+  .wrap-add-keyword { max-width: 100% !important; width: 100% !important; }
+}
+
+/* Tablet lớn: đảm bảo không vượt khung */
+@media (max-width: 1280px) {
+  .wrap-keyword-category,
+  .wrap-keyword-category > .ant-flex.ant-flex-align-stretch.ant-flex-vertical,
+  .wrap-add-keyword,
+  .wrap-keyword-category .ant-table-wrapper,
+  .wrap-keyword-category .pagination-container {
+    max-width: min(100%, var(--rail-w));
+  }
+}

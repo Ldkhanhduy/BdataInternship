@@ -28,7 +28,7 @@ function Keywords() {
     fetchKeywords();
   }, []);
 
-  // Nếu dữ liệu thay đổi làm currentPage vượt quá totalPages => kéo về trang cuối hợp lệ
+  // Nếu dữ liệu làm currentPage > totalPages => kéo về trang cuối hợp lệ
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages);
   }, [totalPages, currentPage]);
@@ -38,7 +38,6 @@ function Keywords() {
     try {
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(`GET ${res.status}`);
-
       const data = await res.json();
       setKeywords(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -64,7 +63,6 @@ function Keywords() {
       });
       if (!res.ok) throw new Error(`POST ${res.status}`);
 
-      // Refetch để đồng bộ bảng + tự mở rộng phân trang
       await fetchKeywords();
       setCurrentPage(1);
     } catch (err) {
@@ -213,122 +211,93 @@ function Keywords() {
   return (
     <div className="cover">
       <Navbar />
-      <div className="inner-cover">
-        <div
-          className="ant-flex css-142vneq ant-flex-align-stretch ant-flex-vertical"
-          style={{ gap: "20px" }}
-        >
-          {/* Tiêu đề */}
-          <div
-            className="page-title ant-flex css-142vneq ant-flex-wrap-wrap ant-flex-align-center ant-flex-justify-space-between"
-            style={{ gap: "10px" }}
-          >
-            <div className="ant-flex css-142vneq" style={{ gap: "12px" }}>
-              <div className="title">Danh mục từ khóa</div>
+      <div className="dashboard">
+        <div className="page-title">
+          <h2 className="dashboard-title">Danh mục từ khóa</h2>
+        </div>
+
+        {/* Khối thêm từ khóa + Bảng */}
+        <div className="wrap-keyword-category ant-flex css-142vneq" style={{ gap: "20px" }}>
+          {/* Add keyword */}
+          <div className="wrap-add-keyword">
+            <div className="ant-spin-nested-loading css-142vneq">
+              <div className="ant-spin-container">
+                <div className="wrap-keyword"></div>
+              </div>
             </div>
+
+            <form className="form-add-keyword" onSubmit={handleAdd} ref={formRef}>
+              <input
+                type="text"
+                name="keyword"
+                placeholder="Nhập từ khóa..."
+                className="input-keyword"
+              />
+              <button type="submit" className="btn-submit-keyword">
+                Thêm từ khóa chính
+              </button>
+            </form>
           </div>
 
-          {/* Khối thêm từ khóa + Bảng */}
+          {/* Bảng & phân trang */}
           <div
-            className="wrap-keyword-category ant-flex css-142vneq"
-            style={{ gap: "20px" }}
+            className="ant-flex css-142vneq ant-flex-align-stretch ant-flex-vertical"
+            style={{ gap: "26px" }}
           >
-            {/* Add keyword (không hiển thị chips khi chưa có dữ liệu) */}
-            <div className="wrap-add-keyword">
+            <div className="ant-table-wrapper rs-table css-142vneq">
               <div className="ant-spin-nested-loading css-142vneq">
                 <div className="ant-spin-container">
-                  <div className="wrap-keyword">{/* giữ nguyên DOM, để trống */}</div>
-                </div>
-              </div>
-              <form className="form-add-keyword" onSubmit={handleAdd} ref={formRef}>
-
-                <input
-                  type="text"
-                  name="keyword"
-                  placeholder="Nhập từ khóa..."
-                  className="input-keyword"
-                />
-                <button type="submit" className="btn-submit-keyword">
-                  Thêm từ khóa chính
-                </button>
-              </form>
-            </div>
-
-            {/* Bảng & phân trang */}
-            <div
-              className="ant-flex css-142vneq ant-flex-align-stretch ant-flex-vertical"
-              style={{ gap: "26px" }}
-            >
-              <div className="ant-table-wrapper rs-table css-142vneq">
-                <div className="ant-spin-nested-loading css-142vneq">
-                  <div className="ant-spin-container">
-                    <div className="ant-table css-142vneq ant-table-ping-right ant-table-scroll-horizontal">
-                      <div className="ant-table-container">
-                        <div
-                          className="ant-table-content"
-                          style={{ overflow: "auto hidden" }}
+                  <div className="ant-table css-142vneq ant-table-ping-right ant-table-scroll-horizontal">
+                    <div className="ant-table-container">
+                      <div className="ant-table-content" style={{ overflow: "auto hidden" }}>
+                        <table
+                          style={{
+                            width: "100%",
+                            minWidth: "100%",
+                            tableLayout: "auto",
+                          }}
                         >
-                          <table
-                            style={{
-                              width: "100%",
-                              minWidth: "100%",
-                              tableLayout: "auto",
-                            }}
-                          >
-                            <colgroup>
-                              <col style={{ width: "80px" }} />
-                              <col />
-                              <col style={{ width: "20px" }} />
-                              <col style={{ width: "200px" }} />
-                              <col style={{ width: "100px" }} />
-                            </colgroup>
-                            <thead className="ant-table-thead">
-                              <tr>
-                                <th className="ant-table-cell" scope="col">
-                                  STT
-                                </th>
-                                <th className="ant-table-cell" scope="col">
-                                  Từ khóa
-                                </th>
-                                <th className="ant-table-cell" scope="col">
-                                  Tổng lượng mention
-                                </th>
-                                <th className="ant-table-cell" scope="col">
-                                  Ngày tạo
-                                </th>
-                                <th className="ant-table-cell" scope="col">
-                                  Trạng thái
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody className="ant-table-tbody">
-                              {renderMeasureRow()}
-                              {renderRows(visible)}
-                            </tbody>
-                          </table>
-                        </div>
+                          <colgroup>
+                            <col style={{ width: "80px" }} />
+                            <col />
+                            <col style={{ width: "20px" }} />
+                            <col style={{ width: "200px" }} />
+                            <col style={{ width: "100px" }} />
+                          </colgroup>
+                          <thead className="ant-table-thead">
+                            <tr>
+                              <th className="ant-table-cell" scope="col">STT</th>
+                              <th className="ant-table-cell" scope="col">Từ khóa</th>
+                              <th className="ant-table-cell" scope="col">Tổng lượng mention</th>
+                              <th className="ant-table-cell" scope="col">Ngày tạo</th>
+                              <th className="ant-table-cell" scope="col">Trạng thái</th>
+                            </tr>
+                          </thead>
+                          <tbody className="ant-table-tbody">
+                            {renderMeasureRow()}
+                            {renderRows(visible)}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Phân trang động theo dữ liệu */}
-              <div className="pagination-container">
-                <ul className="ant-pagination ant-pagination-center css-142vneq">
-                  {renderPrev()}
-                  {Array.from({ length: totalPages }, (_, i) => renderPagerItem(i + 1))}
-                  {renderNext()}
-                </ul>
-              </div>
+            {/* Phân trang */}
+            <div className="pagination-container">
+              <ul className="ant-pagination ant-pagination-center css-142vneq">
+                {renderPrev()}
+                {Array.from({ length: totalPages }, (_, i) => renderPagerItem(i + 1))}
+                {renderNext()}
+              </ul>
             </div>
           </div>
-          {/* /wrap-keyword-category */}
         </div>
       </div>
     </div>
   );
 }
-
 
 export default Keywords;
