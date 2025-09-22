@@ -209,7 +209,7 @@ function Keywords() {
     );
   };
 
-  // ===== Render =====
+  
   return (
     <div className="cover">
       <Navbar />
