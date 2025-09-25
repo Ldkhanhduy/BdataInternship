@@ -21,17 +21,23 @@ function Home() {
       .then((data) => setStats(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://localhost:5000/api/posts")
+    fetch("http://192.168.1.200:5000/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch(() => console.log("API chưa sẵn sàng"));
   }, []);
 
+  const platformMap = {
+    1: <Youtube style={{fill: "#FF0000"}} />,
+    2: <Facebook style={{fil: "#1877F2"}}/>,
+    3: <Tiktok style={{fill: "black"}} />
+  };
+
 
   return (
     <div className="cover">
       <Navbar />
-      <div className="dashboard" style={{ marginLeft: "20%", width: "100%" }}>
+      <div className="dashboard">
         <h2 className="dashboard-title">Trung tâm dữ liệu</h2>
 
         {/* Bộ lọc */}
@@ -49,7 +55,6 @@ function Home() {
             <option>3 ngày gần nhất</option>
           </select>
           <input type="text" placeholder="Nhập nội dung cần tìm..." />
-          <button className="upload-btn">⬆</button>
         </div>
 
         {/* Cards */}
@@ -97,36 +102,48 @@ function Home() {
 
         <div className="table-container">
           <h2 className="table-title" style={{color: "#2e3d76"}}>Bài viết</h2>
-          <table className="custom-table">
-            <thead>
-              <tr>
-                <th style={{width: "5%"}}>STT</th>
-                <th style={{width: "40%"}}>Bài viết</th>
-                <th style={{width: "15%"}}>Từ khóa</th>
-                <th style={{width: "10%"}}>Nguồn</th>
-                <th style={{width: "15%"}}>Người đăng</th>
-                <th style={{width: "15%"}}>Ngày đăng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.length > 0 ? (
-                posts.map((post, index) => (
-                  <tr key={post.id}>
-                    <td>{index + 1}</td>
-                    <td>{post.title}</td>
-                    <td>{post.keyword}</td>
-                    <td>{post.source}</td>
-                    <td>{post.author}</td>
-                    <td>{post.date}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="error">Chưa có dữ liệu...</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <div className="data-table">
+            {posts && posts.length > 0 ? (
+              posts.map((post, index) => (
+                <div key={post.id || index}>
+                  <div className="data-row">
+                    <div className="data-cell">{index + 1}</div>
+                    <div className="data-cell">
+                      {platformMap[post.platform_id] || <span>?</span>}
+                    </div>
+                  </div>
+                  <div className="data-col">
+                    <div className="data-row">
+                      <div className="data-cell" style={{ flexGrow: "8" }}>
+                        {post.title}
+                      </div>
+                      <div className="data-cell" style={{ flexGrow: "2" }}>
+                        {post.source}
+                      </div>
+                      <div className="data-cell" style={{ flexGrow: "2" }}>
+                        {post.author}
+                      </div>
+                      <div className="data-cell" style={{ flexGrow: "2" }}>
+                        {post.content}
+                      </div>
+                    </div>
+                    <div className="data-row">{post.keyword}</div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="data-row">
+                <div
+                  className="error"
+                  style={{ width: "100%"}}
+                >
+                  Chưa có dữ liệu...
+                </div>
+              </div>
+            )}
+          </div>
+
+
         </div>
       </div>
     </div>

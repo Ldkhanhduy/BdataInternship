@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../style/Navbar.css";
 import { ReactComponent as HomeIcon } from "../assets/house-regular-full.svg";
@@ -8,69 +9,68 @@ import Icon from "../assets/icon.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true); // trạng thái mở/ẩn navbar
 
   const handleLogout = () => {
-    // Xóa trạng thái đăng nhập
     localStorage.removeItem("isAuthenticated");
-
-    // Điều hướng về login
     navigate("/login");
   };
 
   return (
-    <nav className="nav">
-      <div className="logo">
-        <NavLink to="/home" className="nav-link-logo">
-          <img src={Icon} alt="Login illustration" />
-          MyApp
-        </NavLink>
-      </div>
-
-      <div className="action-tag">
-        <NavLink
-          to="/home"
-          className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
-          }
-        >
-          <HomeIcon />
-          Trang chủ
-        </NavLink>
-      </div>
-
-      <div className="action-tag">
-        <NavLink
-          to="/data"
-          className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
-          }
-        >
-          <DataIcon />
-          Trung tâm dữ liệu
-        </NavLink>
-      </div>
-
-      <div className="action-tag">
-        <NavLink
-          to="/keywords"
-          className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
-          }
-        >
-          <KeyIcon />
-          Toàn bộ từ khóa
-        </NavLink>
-      </div>
-
-      {/* Logout button */}
-      <div
-        className="action-tag"
-        style={{ marginTop: "auto", marginBottom: "20px", cursor: "pointer", padding: "20px 10px 20px 10px" }}
-        onClick={handleLogout}
+    <>
+      {/* Nút toggle hiển thị ở màn hình nhỏ */}
+      <button
+        className="menu-toggle"
+        onClick={() => setIsOpen(!isOpen)}
       >
-        <LogIcon />
-        Đăng xuất
-      </div>
-    </nav>
+        ☰
+      </button>
+
+      {/* Navbar, ẩn/hiện dựa theo state */}
+      <nav className={`nav ${isOpen ? "open" : "closed"}`}>
+        <div className="logo">
+          <NavLink to="/home" className="nav-link-logo">
+            <img src={Icon} alt="Login illustration" />
+            <span>MyApp</span>
+          </NavLink>
+        </div>
+
+        <div className="action-tag">
+          <NavLink to="/home" className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }>
+            <HomeIcon />
+            <span>Trang chủ</span>
+          </NavLink>
+        </div>
+
+        <div className="action-tag">
+          <NavLink to="/data" className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }>
+            <DataIcon />
+            <span>Trung tâm dữ liệu</span>
+          </NavLink>
+        </div>
+
+        <div className="action-tag">
+          <NavLink to="/keywords" className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }>
+            <KeyIcon />
+            <span>Toàn bộ từ khóa</span>
+          </NavLink>
+        </div>
+
+        <div
+          className="action-tag logout"
+          style={{ marginTop: "auto", marginBottom: "20px", cursor: "pointer", padding: "20px 10px 20px 10px" }}
+          onClick={handleLogout}
+        >
+          <LogIcon />
+          <span>Đăng xuất</span>
+        </div>
+      </nav>
+    </>
   );
 }
