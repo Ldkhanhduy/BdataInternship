@@ -31,7 +31,7 @@ body {
 
 .dashboard-title {
   color: #2e3d76;
-  margin-bottom: 20px;
+  margin-bottom: 14px !important;
 }
 
 .filters {
