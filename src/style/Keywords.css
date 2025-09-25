@@ -42,15 +42,6 @@ body{
   z-index: var(--z-nav);
 }
 
-/* .menu-toggle{
-  position: fixed;
-  left: 12px;
-  top: 70%;
-  transform: translateY(-50%);
-  z-index: var(--z-toggle);
-  pointer-events: auto;
-} */
-
 .wrap-keyword-category,
 .wrap-add-keyword,
 .ant-table-wrapper,
