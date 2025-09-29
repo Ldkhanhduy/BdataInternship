@@ -80,6 +80,17 @@ def add_keyword():
         "keyword": keyword
     }), 201
 
+# ---------------------- API platform ----------------------
+@app.route('/api/platform', methods=['GET'])
+def get_platform():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT platform_id, platform_name FROM platform")
+    data = cursor.fetchall()
+    cursor.close()
+    platform = [{"platform_id": row[0], "platform_name": row[1]} for row in data]
+    return jsonify(platform)
+
+
 # ---------------------- API POSTS ----------------------
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
@@ -103,6 +114,8 @@ def get_posts():
 def get_driver():
     options = Options()
     # options.add_argument("--headless")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     return webdriver.Chrome(options=options)
@@ -126,14 +139,31 @@ def crawl_facebook(keyword):
     time.sleep(20)
 
     results = []
-
+    seen_links = set()
     links = driver.find_elements(By.CSS_SELECTOR, 'div.MjjYud > div > div > div > div > div > div > span > a')
 
     wait = WebDriverWait(driver, 15)
+    
     for idx, link in enumerate(links):
+        
         post = {}
         try:
             haha = link.get_attribute('href')
+            if not haha:
+                continue
+
+            if haha in seen_links:
+                print(f"⏭️ Bỏ qua vì đã crawl trong vòng lặp: {haha}")
+                continue
+            seen_links.add(haha)
+
+            cursor = mysql.connection.cursor()
+            cursor.execute("SELECT COUNT(*) FROM posts WHERE post_link = %s", (link,))
+            exists = cursor.fetchone()[0]
+            cursor.close()
+            if exists > 0:
+                continue
+
             print(f"➡️ ({idx+1}/{len(links)}) Đang mở: {haha}")
             driver.execute_script("window.open(arguments[0]);", haha)
             driver.switch_to.window(driver.window_handles[1])
@@ -186,7 +216,7 @@ def crawl_facebook(keyword):
     return results
 
 # ----------------------CRAWL TIKTOK------------------------------
-def crawl_tiktok(keyword):
+def crawl_tiktok(keyword, max_scroll=10):
     driver = get_driver()
     search_url = f"https://www.tiktok.com/search?q={keyword}"
     driver.get(search_url)
@@ -194,45 +224,59 @@ def crawl_tiktok(keyword):
     wait = WebDriverWait(driver, 20)
     time.sleep(10)
     results = []
-
+    seen_links = set()
     try:
-        containers = wait.until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[id^='column-item-video-container']")))
-        for container in containers:
-            try:
-                link_elem = container.find_element(By.CSS_SELECTOR, "a[href*='/video/']")
-                link = link_elem.get_attribute("href")
-            except:
-                continue
-            # ✅ kiểm tra video đã có trong DB chưa
-            cursor = mysql.connection.cursor()
-            cursor.execute("SELECT COUNT(*) FROM posts WHERE post_link = %s", (link,))
-            exists = cursor.fetchone()[0]
-            cursor.close()
+        last_count = 0
+        for scroll_round in range(max_scroll):
+            containers = wait.until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div[id^='column-item-video-container']")))
+            for container in containers:
+                try:
+                    link_elem = container.find_element(By.CSS_SELECTOR, "a[href*='/video/']")
+                    link = link_elem.get_attribute("href")
+                except:
+                    continue
 
-            if exists > 0:
-                continue  # bỏ qua nếu đã tồn tại
+                if not link or link in seen_links:
+                    continue
+                seen_links.add(link)
 
-            try:
-                title = container.find_element(By.CSS_SELECTOR, "span[data-e2e='new-desc-span']").text.strip()
-                title = remove_emoji(title)
-            except:
-                title = ""
+                # ✅ kiểm tra video đã có trong DB chưa
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT COUNT(*) FROM posts WHERE post_link = %s", (link,))
+                exists = cursor.fetchone()[0] #1
+                cursor.close()
 
-            try:
-                author = container.find_element(
-                    By.CSS_SELECTOR,
-                    "p.css-gcf6yw-5e6d46e3--PUniqueId.ef0y2m46"
-                ).text.strip()
-            except:
-                author = ""
+                if exists > 0:
+                    continue  # bỏ qua nếu đã tồn tại
 
-            result = {
-                "post_name": title,
-                "post_link": link,
-                "author": author,
-                "date": datetime.now().strftime("%Y-%m-%d")}
-            results.append(result)  
+                try:
+                    title = container.find_element(By.CSS_SELECTOR, "span[data-e2e='new-desc-span']").text.strip()
+                    title = remove_emoji(title)
+                except:
+                    title = ""
+
+                try:
+                    author = container.find_element(
+                        By.CSS_SELECTOR,
+                        "p.css-gcf6yw-5e6d46e3--PUniqueId.ef0y2m46"
+                    ).text.strip()
+                except:
+                    author = ""
+
+                result = {
+                    "post_name": title,
+                    "post_link": link,
+                    "author": author,
+                    "date": datetime.now().strftime("%Y-%m-%d")}
+                results.append(result)  
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(random.uniform(3, 6))  # cho TikTok load thêm
+
+            if len(containers) == last_count:
+                print("⚠️ Không load thêm video, dừng lại.")
+                break
+            last_count = len(containers)
 
     except Exception as e:
         print(f"❌ Lỗi crawl_tiktok({keyword}):", e)
@@ -251,13 +295,16 @@ def crawl_youtube(keyword):
     time.sleep(10)
 
     results = []
-
+    seen_links = set()
     try:
         elems = driver.find_elements(By.XPATH, '//a[@id="video-title"]')
         video_links = []
         for e in elems[:10]:  # lấy 10 video đầu tiên
             url = e.get_attribute("href")
             if url and "watch" in url:
+                if url in seen_links:   # nếu đã gặp thì bỏ qua
+                    continue
+                seen_links.add(url)     # đánh dấu đã thấy
                 video_links.append(url)
 
         for link in video_links:
@@ -397,5 +444,6 @@ def auto_crawl():
 
 # ---------------------- MAIN ----------------------
 if __name__ == '__main__':
+    # threading.Thread(daemon=True).start()
     threading.Thread(target=auto_crawl, daemon=True).start()
     app.run(debug=True,use_reloader = False,  host="0.0.0.0", port=5000)
