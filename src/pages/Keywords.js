@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Keywords.css";
 
+
 const API_URL = "http://192.168.1.221:5000/api/keywords";
 const POSTS_URL = "http://192.168.1.221:5000/api/posts";
+
 
 const PAGE_SIZE = 10;
 
