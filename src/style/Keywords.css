@@ -37,10 +37,7 @@ body{
 .nav{
   z-index: var(--z-nav);
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 77a5a924000758b8b69b67348564fab416dc41cc
 .wrap-keyword-category,
 .wrap-add-keyword,
 .ant-table-wrapper,
