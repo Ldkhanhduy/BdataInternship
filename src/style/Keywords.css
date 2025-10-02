@@ -2,9 +2,7 @@
 *,
 *::before,
 *::after { box-sizing: border-box; }
-
 html, body, #root { height: 100%; }
-
 body{
   font-family: Arial, sans-serif;
   background: #f3f4f6;
@@ -26,13 +24,11 @@ body{
   flex-direction: row;
   height: 100vh;
 }
-
 .dashboard{
   margin-left: 20%;
   width: 100%;
   padding: 24px 28px;
 }
-
 @media (max-width: 600px){
   .dashboard{ margin-left: 0; padding: 20px; }
 }
@@ -41,16 +37,6 @@ body{
 .nav{
   z-index: var(--z-nav);
 }
-
-/* .menu-toggle{
-  position: fixed;
-  left: 12px;
-  top: 70%;
-  transform: translateY(-50%);
-  z-index: var(--z-toggle);
-  pointer-events: auto;
-} */
-
 .wrap-keyword-category,
 .wrap-add-keyword,
 .ant-table-wrapper,
@@ -65,7 +51,7 @@ body{
   margin: 0 auto 14px;
 }
 .dashboard-title{
-  margin: 0;
+  /* margin: 0; */
   font-size: 28px;
   line-height: 1.2;
   color: #2e3d76;
@@ -80,7 +66,6 @@ body{
   width: 100%;
   margin: 0 auto;
 }
-
 .wrap-add-keyword{
   background: #ffffff;
   border: 1px solid #ececec;
@@ -89,7 +74,6 @@ body{
   padding: 22px;
   width: 100%;
 }
-
 .wrap-keyword{
   display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;
 }
@@ -103,7 +87,6 @@ body{
   grid-template-columns: 1fr 280px;
   gap: 14px;
 }
-
 .input-keyword{
   height: 56px;
   padding: 0 16px;
@@ -114,7 +97,6 @@ body{
   font-size: 16px;
 }
 .input-keyword::placeholder{ color:#a7afbe; }
-
 .btn-submit-keyword{
   height: 56px;
   background:#2e3d76;
@@ -139,7 +121,6 @@ body{
   width: 100%;
   margin: 0 auto;
 }
-
 .ant-table-wrapper{
   background:#fff;
   border:1px solid #ececec;
@@ -148,13 +129,10 @@ body{
   width:100%;
   box-shadow: 0 1px 2px rgba(0,0,0,.02);
 }
-
 .ant-table{ width:100%; background:#fff; }
 .ant-table-container{ position:relative; }
 .ant-table-content{ overflow:auto hidden; }
-
 .ant-table table{ table-layout: fixed; width: 100%; }
-
 .ant-table thead.ant-table-thead th.ant-table-cell{
   padding: 12px 14px;
   font-size: 15px;
@@ -162,16 +140,12 @@ body{
 .ant-table tbody.ant-table-tbody td.ant-table-cell{
   padding: 14px 14px;
 }
-
 .ant-table thead th:nth-child(1),
 .ant-table tbody td:nth-child(1){ width: 12%; min-width: 68px; }
-
 .ant-table thead th:nth-child(2),
 .ant-table tbody td:nth-child(2){ width: 48%; }
-
 .ant-table thead th:nth-child(3),
 .ant-table tbody td:nth-child(3){ width: 40%; min-width: 180px; }
-
 .ant-table thead.ant-table-thead th.ant-table-cell{
   background:#ffffff;
   color:#2e3d76;
@@ -180,14 +154,47 @@ body{
   border-bottom:1px solid #ececec;
   white-space:nowrap;
 }
-
+.ant-table thead.ant-table-thead th.ant-table-cell,
+.ant-table tbody.ant-table-tbody td.ant-table-cell{
+  text-align: left;
+}
+.ant-table thead th:nth-child(4),
+.ant-table tbody td:nth-child(4){
+  white-space: nowrap;
+  width: 240px;
+  min-width: 240px;
+}
+.ant-table thead th:nth-child(5),
+.ant-table tbody td:nth-child(5){
+  white-space: nowrap;
+  width: 140px;
+  min-width: 140px;
+}
 .ant-table tbody.ant-table-tbody td.ant-table-cell{
   padding:16px 18px;
   border-bottom:1px solid #f1f1f1;
   color:#2e3d76;
 }
-.ant-table-row:hover td.ant-table-cell{ background:#f7f9fc; }
+.ant-table thead.ant-table-thead th.ant-table-cell,
+.ant-table tbody.ant-table-tbody td.ant-table-cell {
+  text-align: left;
+  vertical-align: middle;
+}
 
+@media (min-width: 600px) {
+  .ant-table thead th:nth-child(4),
+  .ant-table tbody td:nth-child(4),
+  .ant-table thead th:nth-child(5),
+  .ant-table tbody td:nth-child(5) {
+    white-space: nowrap;
+  }
+
+  .ant-tag {
+    white-space: nowrap;
+  }
+}
+
+.ant-table-row:hover td.ant-table-cell{ background:#f7f9fc; }
 .ant-tag{
   display:inline-flex; align-items:center;
   border-radius:999px; padding:4px 10px; font-size:13px; font-weight:600;
@@ -203,11 +210,9 @@ body{
   margin: 10px auto 0;
   display:flex; justify-content:center;
 }
-
 .ant-pagination{
   display:inline-flex; gap:10px; list-style:none; padding:0; margin:0;
 }
-
 .ant-pagination-item,
 .ant-pagination-prev,
 .ant-pagination-next{
@@ -244,26 +249,60 @@ body{
   .wrap-add-keyword{ padding:18px; border-radius:12px; }
   .ant-table-content{ overflow:auto; }
   .menu-toggle{ left:10px; }
-  .ant-table thead.ant-table-thead th.ant-table-cell{ padding: 10px 10px; font-size: 12px; }
+  .ant-table thead.ant-table-thead th.ant-table-cell{ padding: 12px 20px; font-size: 15px; }
   .ant-table tbody.ant-table-tbody td.ant-table-cell{ padding: 12px 10px; }
 }
 
-/* Mobile layout Home cards ≤600px (đặt trong Keywords.css để override) */
+@media (max-width: 600px){
+  .ant-table-content{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ant-table table{
+    min-width: 760px;
+    table-layout: fixed;
+  }
+
+  .ant-table thead th:nth-child(1),
+  .ant-table tbody td:nth-child(1){
+    width: 18%;
+    min-width: 70px;
+  }
+  .ant-table thead th:nth-child(2),
+  .ant-table tbody td:nth-child(2){
+    width: 52%;
+    min-width: 180px;
+  }
+  .ant-table thead th:nth-child(3),
+  .ant-table tbody td:nth-child(3){
+    width: 30%;
+    min-width: 116px;
+  }
+
+  .ant-table thead th:nth-child(4),
+  .ant-table tbody td:nth-child(4){
+    min-width: 220px;
+    white-space: nowrap;
+  }
+  .ant-table thead th:nth-child(5),
+  .ant-table tbody td:nth-child(5){
+    min-width: 140px;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 600px) {
   .dashboard .cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;  /* 2 cột */
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
-
-  /* Thứ tự như Hình 2 */
   .dashboard .cards .card:nth-child(1) { order: 1; grid-column: auto; }
   .dashboard .cards .card:nth-child(2) { order: 2; grid-column: auto; }
   .dashboard .cards .card:nth-child(3) { order: 3; grid-column: auto; }
   .dashboard .cards .card:nth-child(4) { order: 4; grid-column: auto; }
-  .dashboard .cards .card:nth-child(5) { order: 5; grid-column: 1 / -1; } /* full width hàng cuối */
-
-  /* Tinh chỉnh hiển thị cho mobile */
+  .dashboard .cards .card:nth-child(5) { order: 5; grid-column: 1 / -1; }
   .dashboard .card { padding: 14px; }
   .dashboard .card h3 { margin: 0 0 8px; font-size: 18px; }
   .dashboard .card .big-number { font-size: 22px; margin-bottom: 8px; }
