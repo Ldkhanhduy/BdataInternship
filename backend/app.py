@@ -95,7 +95,7 @@ def get_platform():
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT post_id, post_name, post_link, author, date, keyword_id, platform_id, crawl_at FROM posts")
+    cursor.execute("SELECT post_id, post_name, post_link, author, date, post_reaction, post_comment, post_share, keyword_id, platform_id, crawl_at FROM posts")
     data = cursor.fetchall()
     cursor.close()
     posts = [{
@@ -104,9 +104,12 @@ def get_posts():
         "post_link": row[2],
         "author": row[3],
         "date": row[4],
-        "keyword_id": row[5],
-        "platform_id": row[6],
-        "crawl_at": row[7].strftime("%Y-%m-%d %H:%M:%S")
+        "post_reaction": row[5],
+        "post_comment": row[6],
+        "post_share": row[7],
+        "keyword_id": row[8],
+        "platform_id": row[9],
+        "crawl_at": row[10].strftime("%Y-%m-%d %H:%M:%S")
     } for row in data]
     return jsonify(posts)
 
@@ -190,11 +193,10 @@ def crawl_facebook(keyword):
                 post["post_link"] = "-"
             
             try:
-                # Đợi và lấy tác giả
                 post["author"] = driver.find_element(By.CSS_SELECTOR, "span.html-span.xdj266r.x14z9mp.xat24cr.x1lziwak.xexx8yu.xyri2b.x18d9i69.x1c1uobl.x1hl2dhg.x16tdsg8.x1vvkbs").text.strip()
             except Exception as e:
                 print("Không lấy được tác giả:", e)
-                author = "unknown"
+                post["author"] = "unknown"
             print("Tiêu đề:", post["post_name"])
             print("Tác giả:", post["author"])
 
@@ -248,7 +250,7 @@ def crawl_tiktok(keyword, max_scroll=10):
                 cursor.close()
 
                 if exists > 0:
-                    continue  # bỏ qua nếu đã tồn tại
+                    continue  
 
                 try:
                     title = container.find_element(By.CSS_SELECTOR, "span[data-e2e='new-desc-span']").text.strip()
@@ -271,7 +273,7 @@ def crawl_tiktok(keyword, max_scroll=10):
                     "date": datetime.now().strftime("%Y-%m-%d")}
                 results.append(result)  
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(random.uniform(3, 6))  # cho TikTok load thêm
+            time.sleep(random.uniform(3, 6)) 
 
             if len(containers) == last_count:
                 print("⚠️ Không load thêm video, dừng lại.")
@@ -302,13 +304,12 @@ def crawl_youtube(keyword):
         for e in elems[:10]:  # lấy 10 video đầu tiên
             url = e.get_attribute("href")
             if url and "watch" in url:
-                if url in seen_links:   # nếu đã gặp thì bỏ qua
+                if url in seen_links:   
                     continue
-                seen_links.add(url)     # đánh dấu đã thấy
+                seen_links.add(url)     
                 video_links.append(url)
 
         for link in video_links:
-            # post_id = link.split("v=")[-1]
 
            # ✅ kiểm tra video đã có trong DB chưa
             cursor = mysql.connection.cursor()
@@ -318,30 +319,25 @@ def crawl_youtube(keyword):
             if exists > 0:
                 continue
 
-            # mở video để lấy chi tiết
             driver.get(link)
             time.sleep(2)
 
-            # Tiêu đề
             try:
                 post_name = driver.find_element(By.CSS_SELECTOR, "#title h1 yt-formatted-string").text
             except:
                 post_name = ""
 
-            # Tác giả
             try:
                 author = driver.find_element(By.CSS_SELECTOR, "#text-container #text a").text
             except:
                 author = ""
 
-            # Ngày đăng
             try:
                 date = driver.find_element(By.CSS_SELECTOR, "#date-text span").text
             except:
                 date = datetime.now().strftime("%Y-%m-%d")
 
             results.append({
-                # "post_id": post_id,
                 "post_name": post_name,
                 "post_link": link,
                 "author": author,
@@ -366,13 +362,16 @@ def crawl_and_save():
             for tt_item in tt_items:
                 try:
                     cursor.execute("""
-                        INSERT INTO posts (post_name, post_link, author, date, keyword_id, platform_id, crawl_at)
+                        INSERT INTO posts (post_name, post_link, author, date, post_reaction, post_comment, post_share, keyword_id, platform_id, crawl_at)
                         VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
                         tt_item["post_name"],
                         tt_item["post_link"],
                         tt_item["author"],
                         tt_item["date"],
+                        tt_item["post_reaction"],
+                        tt_item["post_comment"],
+                        tt_item["post_share"],
                         keyword_id,
                         2,
                         datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -389,15 +388,18 @@ def crawl_and_save():
             for fb_item in fb_items:
                 try:
                     cursor.execute("""
-                        INSERT INTO posts (post_name, post_link, author, date, keyword_id, platform_id, crawl_at)
+                        INSERT INTO posts (post_name, post_link, author, date, post_reaction, post_comment, post_share, keyword_id, platform_id, crawl_at)
                         VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
                         fb_item["post_name"],
                         fb_item["post_link"],
                         fb_item["author"],
                         fb_item["date"],
+                        fb_item["post_reaction"],
+                        fb_item["post_comment"],
+                        fb_item["post_share"],
                         keyword_id,
-                        3,  # platform_id = 3 (Facebook)
+                        3,
                         datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     ))
                     mysql.connection.commit()
@@ -412,15 +414,18 @@ def crawl_and_save():
             for ytb_item in ytb_items:
                 try:
                     cursor.execute("""
-                        INSERT INTO posts (post_name, post_link, author, date, keyword_id, platform_id, crawl_at)
+                        INSERT INTO posts (post_name, post_link, author, date, post_reaction, post_comment, post_share, keyword_id, platform_id, crawl_at)
                         VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
                         ytb_item["post_name"],
                         ytb_item["post_link"],
                         ytb_item["author"],
                         ytb_item["date"],
+                        ytb_item["post_reaction"],
+                        ytb_item["post_comment"],
+                        ytb_item["post_share"],
                         keyword_id,
-                        1,  # YouTube
+                        1,
                         datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     ))
                     mysql.connection.commit()
