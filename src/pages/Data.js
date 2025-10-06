@@ -30,17 +30,17 @@ function Data() {
   useEffect(() => {
     // API giả định cho backend biết
 
-    fetch("http://192.168.31.80:5000/api/posts")
+    fetch("http://192.168.1.199:5000/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://192.168.31.80:5000/api/platform")
+    fetch("http://192.168.1.199:5000/api/platform")
       .then((res) => res.json())
       .then((data) => setPlatform(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://192.168.31.80:5000/api/keywords")
+    fetch("http://192.168.1.199:5000/api/keywords")
       .then((res) => res.json())
       .then((data) => setKeywords(data))
       .catch(() => console.log("API chưa sẵn sàng"));
@@ -57,7 +57,7 @@ function Data() {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 50;
+  const postsPerPage = 30;
 
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
@@ -129,49 +129,76 @@ function Data() {
       selectedPlatform === "Tất cả nền tảng" || 
       post.platform_id === platformId;
 
-    // Lọc theo Ngày (logic đơn giản, cần API hỗ trợ lọc thực tế)
-    // Hiện tại chỉ kiểm tra nếu selectedDate không rỗng, nhưng không có logic lọc ngày tháng thực
-    // Chỉ là placeholder để hoàn thiện sau.
-    // const dateMatch = selectedDate === "" || post.date.includes(selectedDate); // Cần logic lọc ngày thực tế
+        // Logic lọc theo Ngày
+    const today = new Date();
+    const daysMap = {
+      "Hôm nay": 0,
+      "3 ngày gần nhất": 3,
+      "7 ngày gần nhất": 7,
+      "30 ngày gần nhất": 30,
+    };
 
-    return keywordMatch && platformMatch; // Áp dụng cả 2 bộ lọc
+    let dateMatch = true; // mặc định không lọc nếu chưa chọn
+    if (selectedDate && selectedDate !== "Toàn bộ thời gian") {
+      const days = daysMap[selectedDate];
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() - days);
+
+      // chỉ lấy phần yyyy-mm-dd trong crawl_at
+      const postDate = new Date(post.crawl_at.split(" ")[0]);
+
+      // so sánh trong khoảng thời gian
+      dateMatch = postDate.getDate() >= targetDate.getDate();
+    };
+
+    return keywordMatch && platformMatch && dateMatch;
   });
   const currentPosts = filteredPosts.slice(startIndex, endIndex);
 
-const totalLikes = useMemo(() => {
-    // Đảm bảo posts là mảng và không rỗng
-    if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
-        return 0;
-    }
-    
-    return filteredPosts.reduce((sum, post) => {
-        const likes = post.post_reaction || 0; 
-        return sum + likes;
-    }, 0);
-}, [filteredPosts]);
-const totalComments = useMemo(() => {
-    // Đảm bảo posts là mảng và không rỗng
-    if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
-        return 0;
-    }
-    
-    return filteredPosts.reduce((sum, post) => {
-        const likes = post.post_comment || 0; 
-        return sum + likes;
-    }, 0);
-}, [filteredPosts]);
-const totalShares = useMemo(() => {
-    // Đảm bảo posts là mảng và không rỗng
-    if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
-        return 0;
-    }
-    
-    return filteredPosts.reduce((sum, post) => {
-        const likes = post.post_share || 0; 
-        return sum + likes;
-    }, 0);
-}, [filteredPosts]);
+  const totalLikes = useMemo(() => {
+      // Đảm bảo posts là mảng và không rỗng
+      if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
+          return 0;
+      }
+      
+      return filteredPosts.reduce((sum, post) => {
+          const likes = post.post_reaction || 0; 
+          return sum + likes;
+      }, 0);
+  }, [filteredPosts]);
+  const totalComments = useMemo(() => {
+      // Đảm bảo posts là mảng và không rỗng
+      if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
+          return 0;
+      }
+      
+      return filteredPosts.reduce((sum, post) => {
+          const likes = post.post_comment || 0; 
+          return sum + likes;
+      }, 0);
+  }, [filteredPosts]);
+  const totalShares = useMemo(() => {
+      // Đảm bảo posts là mảng và không rỗng
+      if (!Array.isArray(filteredPosts) || filteredPosts.length === 0) {
+          return 0;
+      }
+      
+      return filteredPosts.reduce((sum, post) => {
+          const likes = post.post_share || 0; 
+          return sum + likes;
+      }, 0);
+  }, [filteredPosts]);
 
+  const totalViewsByPlatform = filteredPosts.reduce((acc, post) => {
+    const { platform_id, post_views } = post;
+    acc[platform_id] = (acc[platform_id] || 0) + post_views;
+    return acc;
+  }, {});  
+
+  const totalAllPlatforms = Object.values(totalViewsByPlatform).reduce(
+    (sum, views) => sum + views,
+    0
+  );
 
   return (
     <div className="cover">
@@ -282,6 +309,15 @@ const totalShares = useMemo(() => {
                 <div
                   className="dropdown-item"
                   onClick={() => {
+                    setSelectedDate("Hôm nay");
+                    setIsDateMenuOpen(false);
+                  }}
+                >
+                  Hôm nay
+                </div>
+                <div
+                  className="dropdown-item"
+                  onClick={() => {
                     setSelectedDate("3 ngày gần nhất");
                     setIsDateMenuOpen(false);
                   }}
@@ -315,15 +351,15 @@ const totalShares = useMemo(() => {
         <div className="cards">
           <div className="card card-orange">
             <h3>Tổng bài viết</h3>
-            <p className="big-number">{filteredPosts.length || "--"}</p>
+            <p className="big-number">{filteredPosts.length.toLocaleString('vi-VN') || "--"}</p>
             <p>
               <Post className="svg" />
-              {filteredPosts.length || "--"} Bài viết
+              {filteredPosts.length.toLocaleString('vi-VN') || "--"} Bài viết
             </p>
             {/* Giả định total_mentions là một property của posts, nếu posts là array thì phải tính tổng */}
             <p>
               <Comment className="svg" />
-              {totalComments || "--"} Thảo luận
+              {totalComments.toLocaleString('vi-VN') || "--"} Thảo luận
             </p>
             <small>* Bài viết + thảo luận liên quan đến từ khóa</small>
           </div>
@@ -331,60 +367,60 @@ const totalShares = useMemo(() => {
           <div className="card">
             <h3>Tổng tương tác</h3>
             <p className="big-number">
-              {posts?.total_interactions?.value || "--"}
+              {(totalComments+totalLikes+totalShares).toLocaleString('vi-VN') || "--"}
             </p>
             <p>
               <Comment className="svg" />
-              {totalComments || "--"} Tổng thảo luận
+              {totalComments.toLocaleString('vi-VN') || "--"} Tổng thảo luận
             </p>
             <p>
               <Like className="svg" />
-              {totalLikes || "--"} Lượt thích
+              {totalLikes.toLocaleString('vi-VN') || "--"} Lượt thích
             </p>
             <p>
               <Share className="svg" />
-              {totalShares || "--"} Chia sẻ
+              {totalShares.toLocaleString('vi-VN') || "--"} Chia sẻ
             </p>
           </div>
 
           <div className="card">
             <h3>Tổng lượt xem</h3>
-            <p className="big-number">{posts?.total_views?.value || "--"}</p>
+            <p className="big-number">{totalAllPlatforms.toLocaleString('vi-VN') || "--"}</p>
             <p>
               <Tiktok className="svg" style={{ width: "20px", fill: "black" }} />
-              TikTok: {posts?.total_views?.tiktok || "--"}
+              {totalViewsByPlatform[2] || "--"}
             </p>
             <p>
               <Youtube
                 className="svg"
                 style={{ width: "20px", fill: "#FF0000" }}
               />
-              YouTube: {posts?.total_views?.youtube || "--"}
+              {totalViewsByPlatform[1] || "--"}
             </p>
             <p>
               <Facebook
                 className="svg"
                 style={{ width: "20px", fill: "#1877F2" }}
               />
-              Facebook: {posts?.total_views?.facebook || "--"}
+              {totalViewsByPlatform[3] || "--"}
             </p>
           </div>
 
           <div className="card">
             <h3>Tổng từ khóa</h3>
             <p className="big-number">{keywords.length || "--"}</p>
-            {/* Hiển thị 3 từ khóa phổ biến nhất, giả định posts.total_keywords.list là mảng các từ khóa */}
-            {posts?.total_keywords?.list?.slice(0, 3).map((kw, i) => (
+            {/* Hiển thị 3 từ khóa phổ biến nhất, giả định filteredPosts.total_keywords.list là mảng các từ khóa */}
+            {filteredPosts?.total_keywords?.list?.slice(0, 3).map((kw, i) => (
               <p key={i}>{kw}</p>
             ))}
           </div>
 
           <div className="card">
             <h3>Tổng dữ liệu</h3>
-            <p className="big-number">{posts?.total_data?.value || "--"}</p>
-            <p>{posts?.total_data?.mentions || "--"} Mentions</p>
-            <p>{posts?.total_data?.interactions || "--"} Tương tác</p>
-            <p>{posts?.total_data?.views || "--"} Lượt xem</p>
+            <p className="big-number">{(filteredPosts?.length+totalLikes+totalComments+totalShares+totalAllPlatforms).toLocaleString('vi-VN') || "--"}</p>
+            <p>{filteredPosts?.length.toLocaleString('vi-VN') || "--"} Mentions</p>
+            <p>{(totalLikes+totalComments+totalShares).toLocaleString('vi-VN') || "--"} Tương tác</p>
+            <p>{totalAllPlatforms.toLocaleString('vi-VN') || "--"} Lượt xem</p>
           </div>
         </div>
 
@@ -437,7 +473,7 @@ const totalShares = useMemo(() => {
             ) : (
               <div className="data-row">
                 <div className="error" style={{ width: "100%" }}>
-                  Đang tải dữ liệu...
+                  Không có dữ liệu
                 </div>
               </div>
             )}
