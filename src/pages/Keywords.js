@@ -1,55 +1,44 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Keywords.css";
 
-
-const API_URL = "http://192.168.1.221:5000/api/keywords";
-const POSTS_URL = "http://192.168.1.221:5000/api/posts";
-
-
+const API_URL = "http://192.168.1.199:5000/api/keywords";
+const POSTS_URL = "http://192.168.1.199:5000/api/posts";
 const PAGE_SIZE = 10;
+const isDev = typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production";
 
 function Keywords() {
   const [keywords, setKeywords] = useState([]);
+  const [mentionMap, setMentionMap] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const formRef = useRef(null);
-
-  // === BỔ SUNG: map đếm số mention theo keyword_id ===
-  const [mentionMap, setMentionMap] = useState({});
   const nf = new Intl.NumberFormat("vi-VN");
 
   const totalItems = keywords.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
-  const offset = (currentPage - 1) * PAGE_SIZE;
-  const visible = keywords.slice(offset, offset + PAGE_SIZE);
+  const offset = useMemo(() => (currentPage - 1) * PAGE_SIZE, [currentPage]);
+  const visible = useMemo(() => keywords.slice(offset, offset + PAGE_SIZE), [keywords, offset]);
 
   useEffect(() => { fetchKeywords(); }, []);
   useEffect(() => { if (currentPage > totalPages) setCurrentPage(totalPages); }, [totalPages, currentPage]);
 
-  /* ===== Nav toggle wiring (no HTML change) ===== */
   useEffect(() => {
     const nav = document.querySelector(".nav");
     const toggle = document.querySelector(".menu-toggle");
     if (!nav || !toggle) return;
-
     const mq = window.matchMedia("(max-width: 600px)");
     const syncInitial = () => { if (mq.matches) nav.classList.remove("open"); };
     syncInitial();
-
     const onToggle = (e) => { e.stopPropagation(); nav.classList.toggle("open"); };
     const onEsc = (e) => { if (e.key === "Escape") nav.classList.remove("open"); };
     const onOutside = (e) => {
       if (!mq.matches) return;
-      if (nav.classList.contains("open") && !nav.contains(e.target) && e.target !== toggle) {
-        nav.classList.remove("open");
-      }
+      if (nav.classList.contains("open") && !nav.contains(e.target) && e.target !== toggle) nav.classList.remove("open");
     };
-
     toggle.addEventListener("click", onToggle);
     document.addEventListener("keydown", onEsc);
     document.addEventListener("click", onOutside);
     mq.addEventListener?.("change", syncInitial);
-
     return () => {
       toggle.removeEventListener("click", onToggle);
       document.removeEventListener("keydown", onEsc);
@@ -58,7 +47,6 @@ function Keywords() {
     };
   }, []);
 
-  // === BỔ SUNG: tải /api/posts và đếm mentions theo keyword_id ===
   useEffect(() => {
     const ctrl = new AbortController();
     (async () => {
@@ -67,7 +55,6 @@ function Keywords() {
         if (!res.ok) throw new Error(`GET posts ${res.status}`);
         const data = await res.json();
         if (!Array.isArray(data)) return;
-
         const map = {};
         for (const p of data) {
           const kid = p.keyword_id ?? p.keywordId ?? p.keyword;
@@ -76,21 +63,23 @@ function Keywords() {
           map[kid] = (map[kid] || 0) + inc;
         }
         setMentionMap(map);
-      } catch (e) {
-        // im lặng: nếu API chưa sẵn sàng vẫn fallback về k.mention sẵn có
-        // console.warn("posts/mentions not ready", e);
+      } catch (err) {
+        if (isDev) console.warn("GET /posts failed:", err);
+        setMentionMap({});
       }
     })();
     return () => ctrl.abort();
   }, []);
 
   async function fetchKeywords() {
+    const ctrl = new AbortController();
     try {
-      const res = await fetch(API_URL);
+      const res = await fetch(API_URL, { signal: ctrl.signal });
       if (!res.ok) throw new Error(`GET ${res.status}`);
       const data = await res.json();
       setKeywords(Array.isArray(data) ? data : []);
-    } catch {
+    } catch (err) {
+      if (isDev) console.warn("GET /keywords failed:", err);
       setKeywords([]);
     }
   }
@@ -102,7 +91,6 @@ function Keywords() {
     const input = form.elements?.keyword;
     const val = (input?.value || "").trim();
     if (!val) return;
-
     try {
       const res = await fetch(API_URL, {
         method: "POST",
@@ -112,8 +100,8 @@ function Keywords() {
       if (!res.ok) throw new Error(`POST ${res.status}`);
       await fetchKeywords();
       setCurrentPage(1);
-    } catch {
-      /* noop */
+    } catch (err) {
+      if (isDev) console.warn("POST /keywords failed:", err);
     } finally {
       if (typeof form.reset === "function") form.reset();
     }
@@ -132,15 +120,8 @@ function Keywords() {
   const renderRows = (rows) =>
     rows.map((k, i) => {
       const stt = offset + i + 1;
-
-      // === BỔ SUNG: lấy tổng mention từ map; fallback về k.mention; rồi format theo vi-VN ===
-      const rawMention =
-        mentionMap[k.id] ??
-        mentionMap[k.keyword_id] ??
-        k.mention ??
-        0;
+      const rawMention = mentionMap[k.id] ?? mentionMap[k.keyword_id] ?? k.mention ?? 0;
       const mention = nf.format(Number(rawMention) || 0);
-
       const created = k.created_at || k.createdAt || "";
       return (
         <tr key={k.id ?? `${stt}-${k.keyword}`} className="ant-table-row ant-table-row-level-0" data-row-key={String(k.id ?? stt)}>

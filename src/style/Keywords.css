@@ -49,7 +49,6 @@ body{
 /* 5) TITLE */
 .page-title{
   max-width: var(--rail-w);
-  margin: 0 auto 14px;
 }
 .dashboard-title{
   /* margin: 0; */
@@ -63,9 +62,7 @@ body{
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: var(--rail-w);
   width: 100%;
-  margin: 0 auto;
 }
 .wrap-add-keyword{
   background: #ffffff;
@@ -118,9 +115,7 @@ body{
 
 /* 8) TABLE */
 .ant-flex.ant-flex-align-stretch.ant-flex-vertical{
-  max-width: var(--rail-w);
   width: 100%;
-  margin: 0 auto;
 }
 .ant-table-wrapper{
   background:#fff;
