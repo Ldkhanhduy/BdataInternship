@@ -102,6 +102,9 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
 }
 
 
@@ -117,7 +120,8 @@ body {
   padding: 15px;
   border-radius: 8px;
   flex: 1 1 calc(10% - 20px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 0.001cm #2e3d76 solid;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
   color: #2e3d76;
 }
 
