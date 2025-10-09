@@ -14,6 +14,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import random
 
+from selenium.webdriver.edge.service import Service
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+
 app = Flask(__name__)
 CORS(app)
 
@@ -89,6 +92,8 @@ def get_posts():
     return jsonify(posts)
 
 # ---------------------- SELENIUM ----------------------
+from selenium.webdriver.edge.options import Options
+
 def get_driver():
     options = Options()
     # options.add_argument("--headless")
@@ -96,7 +101,8 @@ def get_driver():
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-    return webdriver.Chrome(options=options)
+    return webdriver.Edge(options=options)
+
 
 def remove_emoji(text):
     emoji_pattern = re.compile("["
