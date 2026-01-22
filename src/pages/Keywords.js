@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/Keywords.css";
 
-const API_URL = "http://192.168.1.199:5000/api/keywords";
-const POSTS_URL = "http://192.168.1.199:5000/api/posts";
+const API_URL = "http://192.168.1.202:5000/api/keywords";
+const POSTS_URL = "http://192.168.1.202:5000/api/posts";
 const PAGE_SIZE = 10;
 const isDev = typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production";
 

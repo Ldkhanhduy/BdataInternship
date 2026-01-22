@@ -28,19 +28,17 @@ function Data() {
   const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
-    // API giả định cho backend biết
-
-    fetch("http://192.168.1.199:5000/api/posts")
+    fetch("http://192.168.1.205:5000/api/posts")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://192.168.1.199:5000/api/platform")
+    fetch("http://192.168.1.205:5000/api/platform")
       .then((res) => res.json())
       .then((data) => setPlatform(data))
       .catch(() => console.log("API chưa sẵn sàng"));
 
-    fetch("http://192.168.1.199:5000/api/keywords")
+    fetch("http://192.168.1.205:5000/api/keywords")
       .then((res) => res.json())
       .then((data) => setKeywords(data))
       .catch(() => console.log("API chưa sẵn sàng"));
@@ -371,7 +369,7 @@ function Data() {
             </p>
             <p>
               <Comment className="svg" />
-              {totalComments.toLocaleString('vi-VN') || "--"} Tổng thảo luận
+              {totalComments.toLocaleString('vi-VN') || "--"} Thảo luận
             </p>
             <p>
               <Like className="svg" />
