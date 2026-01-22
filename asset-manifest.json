@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/BdataInternship/static/css/main.b7012c05.css",
-    "main.js": "/BdataInternship/static/js/main.68c29779.js",
+    "main.js": "/BdataInternship/static/js/main.43cbfb41.js",
     "static/js/453.ccf601d5.chunk.js": "/BdataInternship/static/js/453.ccf601d5.chunk.js",
     "static/media/icon.png": "/BdataInternship/static/media/icon.f4056047626be3cba45a.png",
     "static/media/eye-regular-full.svg": "/BdataInternship/static/media/eye-regular-full.c2a61eceafb6c85b74ef76c76f9335c3.svg",
@@ -19,11 +19,11 @@
     "static/media/file-regular-full.svg": "/BdataInternship/static/media/file-regular-full.1fe8eee83280c2e4c4d77179f168eb10.svg",
     "static/media/facebook-brands-solid-full.svg": "/BdataInternship/static/media/facebook-brands-solid-full.c706729c289e41d452a5cd813fde3adf.svg",
     "main.b7012c05.css.map": "/BdataInternship/static/css/main.b7012c05.css.map",
-    "main.68c29779.js.map": "/BdataInternship/static/js/main.68c29779.js.map",
+    "main.43cbfb41.js.map": "/BdataInternship/static/js/main.43cbfb41.js.map",
     "453.ccf601d5.chunk.js.map": "/BdataInternship/static/js/453.ccf601d5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b7012c05.css",
-    "static/js/main.68c29779.js"
+    "static/js/main.43cbfb41.js"
   ]
 }
