@@ -46,23 +46,26 @@ export default function Login() {
 
             {/* Input password với toggle show/hide */}
             <div className="password-wrapper">
-                <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <img
-                    src={showPassword ? Noeye : Eye} // Eye: mắt mở, Noeye: mắt đóng
-                    alt="Toggle Password"
-                    className="toggle-password"
-                    onClick={() => setShowPassword(!showPassword)}
-                />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <img
+                src={showPassword ? Noeye : Eye} // Eye: mắt mở, Noeye: mắt đóng
+                alt="Toggle Password"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              />
             </div>
 
             <button type="submit">Login</button>
           </form>
+          <p className="demo-hint">
+            Demo: <strong>admin@bdata.com</strong> / <strong>admin123</strong>
+          </p>
         </div>
       </div>
     </div>
