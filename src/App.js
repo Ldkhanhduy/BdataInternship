@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectRoute";
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/BdataInternship">
       <Routes>
         {/* Khi mở app, điều hướng về /login */}
         <Route path="/" element={<Navigate to="/login" />} />

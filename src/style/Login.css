@@ -84,6 +84,14 @@ body {
   background: #f77a27;
 }
 
+/* Demo hint */
+.demo-hint {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .password-wrapper {
   position: relative;
   width: 100%;
