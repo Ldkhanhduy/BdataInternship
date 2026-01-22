@@ -30,7 +30,7 @@ function Home() {
   // Gọi API khi component được mount
   useEffect(() => {
     // API giả định cho backend biết
-    const baseUrl = "http://192.168.1.199:5000/api";
+    const baseUrl = "http://192.168.1.202:5000/api";
     const handleError = () => console.log("API chưa sẵn sàng");
 
     fetch(`${baseUrl}/keywords`)
@@ -369,7 +369,7 @@ function Home() {
             </p>
             <p>
               <Comment className="svg" />
-              {totalComments.toLocaleString('vi-VN') || "--"} Tổng thảo luận
+              {totalComments.toLocaleString('vi-VN') || "--"} Thảo luận
             </p>
             <p>
               <Like className="svg" />
