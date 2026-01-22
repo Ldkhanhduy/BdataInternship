@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/BdataInternship/static/css/main.b7012c05.css",
+    "main.js": "/BdataInternship/static/js/main.68c29779.js",
+    "static/js/453.ccf601d5.chunk.js": "/BdataInternship/static/js/453.ccf601d5.chunk.js",
+    "static/media/icon.png": "/BdataInternship/static/media/icon.f4056047626be3cba45a.png",
+    "static/media/eye-regular-full.svg": "/BdataInternship/static/media/eye-regular-full.c2a61eceafb6c85b74ef76c76f9335c3.svg",
+    "static/media/eye-slash-regular-full.svg": "/BdataInternship/static/media/eye-slash-regular-full.f7c4b8468d92555ee4849a6dee61f91e.svg",
+    "static/media/list-check-solid-full.svg": "/BdataInternship/static/media/list-check-solid-full.d39090086b86d239c5f72cedf202e3af.svg",
+    "static/media/share-from-square-solid-full.svg": "/BdataInternship/static/media/share-from-square-solid-full.e1562030c6c7a3f6f11d801d7fba4319.svg",
+    "static/media/tiktok-brands-solid-full.svg": "/BdataInternship/static/media/tiktok-brands-solid-full.a91643b5a24ec0548278814cc03c64b8.svg",
+    "static/media/thumbs-up-solid-full.svg": "/BdataInternship/static/media/thumbs-up-solid-full.d1022b1434a8fc868e728be8903a2adc.svg",
+    "static/media/house-regular-full.svg": "/BdataInternship/static/media/house-regular-full.129d48df71069e44fefaa2e9315ecc2f.svg",
+    "static/media/arrow-right-from-bracket-solid-full.svg": "/BdataInternship/static/media/arrow-right-from-bracket-solid-full.86a84b47e7aad473446edbb6e068703d.svg",
+    "static/media/pen-nib-solid-full.svg": "/BdataInternship/static/media/pen-nib-solid-full.1cec93c48c665b71877b53130cf010d2.svg",
+    "static/media/comments-solid-full.svg": "/BdataInternship/static/media/comments-solid-full.5462e0944ab97cc1efba001c0d332f79.svg",
+    "index.html": "/BdataInternship/index.html",
+    "static/media/youtube-brands-solid-full.svg": "/BdataInternship/static/media/youtube-brands-solid-full.81eee5442a3f95373233b182b41959fd.svg",
+    "static/media/file-regular-full.svg": "/BdataInternship/static/media/file-regular-full.1fe8eee83280c2e4c4d77179f168eb10.svg",
+    "static/media/facebook-brands-solid-full.svg": "/BdataInternship/static/media/facebook-brands-solid-full.c706729c289e41d452a5cd813fde3adf.svg",
+    "main.b7012c05.css.map": "/BdataInternship/static/css/main.b7012c05.css.map",
+    "main.68c29779.js.map": "/BdataInternship/static/js/main.68c29779.js.map",
+    "453.ccf601d5.chunk.js.map": "/BdataInternship/static/js/453.ccf601d5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b7012c05.css",
+    "static/js/main.68c29779.js"
+  ]
+}
